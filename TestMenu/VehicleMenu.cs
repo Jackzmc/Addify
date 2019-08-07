@@ -46,13 +46,6 @@ namespace Addify
             Ped playerPed = Game.Player.Character;
             if(playerPed.IsInVehicle() && playerVehicle != null)
             {
-                /*if (menu_godmode.Checked)
-                {
-                    if (playerVehicle.IsDamaged)
-                    {
-                        playerVehicle.Repair();
-                    }
-                }*/
                 if(menu_speed.Checked)
                 {
                     bool isMPH = speedTypes[menu_speed_type.Index] == "MPH";

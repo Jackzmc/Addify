@@ -43,6 +43,7 @@ namespace Addify {
             playerMenu = new PlayerMenu(menuPool.AddSubMenu(mainMenu, "Player"));
             vehicleMenu = new VehicleMenu(menuPool.AddSubMenu(mainMenu, "Vehicle Options"));
             worldMenu = new WorldMenu(menuPool.AddSubMenu(mainMenu, "World"));
+            weaponMenu = new WeaponMenu(menuPool.AddSubMenu(mainMenu, "Weapons"));
             teleportMenu = new TeleportMenu(menuPool.AddSubMenu(mainMenu, "Teleport"));
             debugMenu = new DebugMenu(menuPool.AddSubMenu(mainMenu, "Debug"));
 

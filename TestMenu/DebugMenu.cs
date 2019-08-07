@@ -63,12 +63,12 @@ namespace Addify
         }
         public override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
         {
-           if(item == menu_generic_click)
-           {
-                Util.Teleport(517.6304f, -1060.372f, 26.7011f);
-           }else if(item == menu_mouse_loc_action)
+            if(item == menu_mouse_loc_action)
             {
                 UI.ShowSubtitle($"X: {Cursor.Position.X} | y: {Cursor.Position.Y}",5000);
+            }else if(item == menu_generic_click)
+            {
+                
             }
         }
         public override void update()

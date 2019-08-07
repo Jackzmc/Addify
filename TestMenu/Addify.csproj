@@ -43,9 +43,10 @@
     <Compile Include="Main.cs" />
     <Compile Include="PlayerMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="lib\SortedWeapons.cs" />
     <Compile Include="TeleportMenu.cs" />
     <Compile Include="MenuItem.cs" />
-    <Compile Include="Util.cs" />
+    <Compile Include="lib\Util.cs" />
     <Compile Include="VehicleMenu.cs" />
     <Compile Include="WeaponMenu.cs" />
     <Compile Include="WorldMenu.cs" />

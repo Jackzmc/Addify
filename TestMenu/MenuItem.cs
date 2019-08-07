@@ -16,7 +16,6 @@ namespace Addify
         protected Player player = Game.Player;
         protected Ped playerPed = Game.Player.Character;
         protected Vehicle playerVehicle;
-        protected Vehicle lastVehicle;
         public MenuItem(UIMenu menu)
         {
             this.menu = menu;

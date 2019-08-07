@@ -35,8 +35,8 @@ namespace Addify {
 
         public WorldMenu (UIMenu menu) : base(menu) {
             //set list items
-            //menu_weather = new UIMenuListItem("Weather", weatherList, 0);
             
+            //menu_weather = new UIMenuListItem("Weather", weatherList, 0);
             var timeweathermenu = pool.AddSubMenu(menu, "Time / Weather");
             var trainmenu = pool.AddSubMenu(menu, "Train");
             weatherMenu = new WorldMenu_Weather(timeweathermenu);
