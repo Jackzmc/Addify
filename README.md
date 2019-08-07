@@ -1,2 +1,2 @@
-# GTAV_BasicSP_Menu
+# Addify
 A singleplayer (scripthookdotnet) menu
