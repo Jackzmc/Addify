@@ -6,14 +6,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B3D275DF-BB2F-40AE-873D-DC8EA7BC1685}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>TestMenu</RootNamespace>
-    <AssemblyName>TestMenu</AssemblyName>
+    <RootNamespace>Addify</RootNamespace>
+    <AssemblyName>Addify</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -36,24 +36,33 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DebugMenu.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="PlayerMenu.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TeleportMenu.cs" />
+    <Compile Include="MenuItem.cs" />
+    <Compile Include="Util.cs" />
+    <Compile Include="VehicleMenu.cs" />
     <Compile Include="WeaponMenu.cs" />
     <Compile Include="WorldMenu.cs" />
+    <Compile Include="WorldMenu_Train.cs" />
+    <Compile Include="WorldMenu_Weather.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="NativeUI">
-      <HintPath>D:\Jackz\Documents\GTAV Mods\NativeUI.dll</HintPath>
+    <Reference Include="NativeUI, Version=1.9.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\NativeUI.1.9.0\lib\net452\NativeUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ScriptHookVDotNet2">
-      <HintPath>D:\Jackz\Documents\GTAV Mods\ScriptHookVDotNet2.dll</HintPath>
+    <Reference Include="ScriptHookVDotNet2, Version=2.10.9.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\ScriptHookVDotNet2.2.10.9\lib\net40\ScriptHookVDotNet2.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>

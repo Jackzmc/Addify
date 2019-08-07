@@ -3,97 +3,184 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using GTA;
+using GTA.Math;
 using GTA.Native;
 using NativeUI;
 
-namespace TestMenu {
-    class WorldMenu {
-        public static UIMenu menu;
+namespace Addify {
+    class WorldMenu : MenuItem {
 
-        public static UIMenuListItem time_hr;
-        public static UIMenuListItem time_min;
-        public static UIMenuListItem weather;
-        public static UIMenuCheckboxItem freezeTime;
-        public static UIMenuCheckboxItem blackout = new UIMenuCheckboxItem("Blackout", false);
+        static Random rnd = new Random();
 
-        public static UIMenuItem timeInc;
-        public static UIMenuItem timeDec;
+        static UIMenuCheckboxItem menu_blackout = new UIMenuCheckboxItem("Blackout", false);
+        static UIMenuCheckboxItem menu_no_helis = new UIMenuCheckboxItem("No Police Helicopters", true);
+        static UIMenuCheckboxItem menu_angry_cops = new UIMenuCheckboxItem("Cop Forcefield", true);
+        static UIMenuCheckboxItem menu_angry_cop_cars = new UIMenuCheckboxItem("Suicidal Cops Cars", false);
 
-        public static bool timeFrozen = false;
-        public static bool blackoutActive = false;
+        static UIMenuItem menu_add_ped = new UIMenuItem("Add Bodyguard");
 
-        public static List<dynamic> weatherList = new List<dynamic>();
-        public static List<dynamic> hourList = new List<dynamic>();
-        public static List<dynamic> minuteList = new List<dynamic>() {
+        private static WorldMenu_Train trainMenu;
+        private static WorldMenu_Weather weatherMenu;
 
+        
+        private PedHash[] POLICE_MODELS = new PedHash[]
+        {
+            PedHash.Cop01SFY, PedHash.Cop01SMY, PedHash.Swat01SMY, PedHash.UndercoverCopCutscene, PedHash.Sheriff01SFY, PedHash.Sheriff01SMY, PedHash.SecuroGuardMale01, PedHash.Security01SMM, PedHash.Marine01SMM, PedHash.Marine01SMY, PedHash.Marine02SMM, PedHash.Marine02SMY, PedHash.Marine03SMY
         };
 
-        public static void menuInit(UIMenu menuin) {
-            menu = menuin;
+        //static bool no_police_helis = false;
 
-            Weather[] allWeathers = (Weather[])Enum.GetValues(typeof(Weather));
-            for(int i=0;i<allWeathers.Length;i++) {
-                weatherList.Add(allWeathers[i]);
-            }
-            for(int i=0;i<=24;i++) {
-                hourList.Add(i);
-            }
-            for(int i=0;i<=60;i++) {
-                minuteList.Add(i);
-            }
 
-            weather = new UIMenuListItem("Weather", weatherList, 0);
-            timeInc = new UIMenuItem("Time ahead an hour");
-            timeDec = new UIMenuItem("Time behind an hour");
-            freezeTime = new UIMenuCheckboxItem("Freeze Time",false);
-            time_hr = new UIMenuListItem("Hour", hourList, 0);
-            time_min = new UIMenuListItem("Minutes", minuteList, 0);
-
-            menu.OnItemSelect += (sender, item, index) => {
-                if(item == weather) {
-                    int listIndex = weather.Index;
-                    Weather newWeather = (Weather)weatherList[listIndex];
-                    GTA.World.Weather = newWeather;
-                }else if(item == time_hr) {
-                    int min = GTA.Native.Function.Call<int>(Hash.GET_CLOCK_MINUTES);
-                    int hour = (int)hourList[time_hr.Index];
-                    GTA.Native.Function.Call(Hash.SET_CLOCK_TIME, hour, min, 0);
-                } else if(item == time_min) {
-                    int min = (int)minuteList[time_min.Index];
-                    int hour = GTA.Native.Function.Call<int>(Hash.GET_CLOCK_HOURS);
-                    GTA.Native.Function.Call(Hash.SET_CLOCK_TIME, hour, min, 0);
-                }else if(item == timeInc) {
-                    GTA.Native.Function.Call(Hash.ADD_TO_CLOCK_TIME, 1, 0, 0);
-                } else if(item == timeDec) {
-                    GTA.Native.Function.Call(Hash.ADD_TO_CLOCK_TIME, -1, 0, 0);
-                }
-            };
-            menu.OnCheckboxChange += onCheckboxChange;
-            void onCheckboxChange(UIMenu sender, UIMenuCheckboxItem checkbox, bool Checked) {
-                if(checkbox == freezeTime) {
-                    //hour,min,sec
-                    timeFrozen = !timeFrozen;
-                } else if (checkbox == blackout) {
-                    blackoutActive = !blackoutActive;
-                    GTA.World.SetBlackout(blackoutActive);
-                }
-            }
-
-            menu.AddItem(time_hr);
-            menu.AddItem(time_min);
-            menu.AddItem(timeInc);
-            menu.AddItem(timeDec);
-            menu.AddItem(weather);
-            menu.AddItem(freezeTime);
-            menu.AddItem(blackout);
+        public WorldMenu (UIMenu menu) : base(menu) {
+            //set list items
+            //menu_weather = new UIMenuListItem("Weather", weatherList, 0);
+            
+            var timeweathermenu = pool.AddSubMenu(menu, "Time / Weather");
+            var trainmenu = pool.AddSubMenu(menu, "Train");
+            weatherMenu = new WorldMenu_Weather(timeweathermenu);
+            trainMenu = new WorldMenu_Train(trainmenu);
+            menu.AddItem(menu_blackout);
+            menu.AddItem(menu_no_helis);
+            menu.AddItem(menu_add_ped);
+            menu.AddItem(menu_angry_cops);
+            menu.AddItem(menu_angry_cop_cars);
         }
-        public static void update() {
-            if(timeFrozen) {
-                int hour = GTA.Native.Function.Call<int>(Hash.GET_CLOCK_HOURS);
-                int min = GTA.Native.Function.Call<int>(Hash.GET_CLOCK_MINUTES);
-                GTA.Native.Function.Call(Hash.SET_CLOCK_TIME, hour, min, 0);
+        public override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
+        {
+            /*switch(item)
+                {
+                    case menu_weather:
+                    case menu_time_hr:
+                    case menu_time_min:
+                    case menu_timeInc:
+                    case menu_timeDec:
+                        break;
+                }*/
+            
+            if (item == menu_add_ped)
+            {
+                Ped ped = GTA.World.CreatePed(PedHash.Chef, Game.Player.Character.GetOffsetInWorldCoords(new Vector3(0, 5, 0)));
+                ped.MaxDrivingSpeed = 200;
+                ped.Armor = 100;
+                ped.Weapons.Give(WeaponHash.PumpShotgun, 500, true, true);
+                ped.Task.ReloadWeapon();
+                GTA.Native.Function.Call(Hash.SET_RELATIONSHIP_BETWEEN_GROUPS, Game.Player.Character, ped, Relationship.Companion.GetHashCode());
+                /*Ped[] targets = World.GetNearbyPeds(Game.Player.WantedCenterPosition, 50);
+                for(int i=0;i<targets.Length;i++)
+                {
+                    GTA.World.
+                    if(targets[i].)
+                }*/
+
             }
+        }
+        public override void onCheckboxChange(UIMenu sender, UIMenuCheckboxItem checkbox, bool Checked)
+        {
+            if(checkbox == menu_blackout)
+            {
+                GTA.World.SetBlackout(menu_blackout.Checked);
+            }
+        }
+        public override void update() {
+            base.update();
+            weatherMenu.update();
+            trainMenu.update();
+            
+            if(menu_no_helis.Checked)
+            {
+                Vehicle[] nearby = World.GetNearbyVehicles(Game.Player.Character.Position,200,"polmav");
+                for(int i=0;i<nearby.Length;i++)
+                {
+                    Vehicle veh = nearby[i];
+
+                    if(veh.IsAlive && veh != Game.Player.Character.CurrentVehicle)
+                    {
+                        Ped driver = veh.Driver;
+                        if (driver.IsInPoliceVehicle)
+                        {
+                            veh.EngineRunning = false;
+                            driver.Kill();
+                        }
+
+                        for (int k = 0;k< veh.Passengers.Length;k++)
+                        {
+                            veh.Passengers[k].Delete();
+                        }
+                        
+                        //GTA.Math.Vector3 new_direction = new GTA.Math.Vector3(veh.ForwardVector.X, veh.ForwardVector.Y, veh.ForwardVector.Z - 1);
+                        //veh.ApplyForce(new_direction, veh.Rotation);
+                    }
+                }
+            }
+            if(player.WantedLevel > 0) {
+                if(menu_angry_cop_cars.Checked )
+                {
+                    Vehicle[] nearby = World.GetNearbyVehicles(Game.Player.Character.Position, 150);
+                    for (int i = 0; i < nearby.Length; i++)
+                    {
+                        Vehicle veh = nearby[i];
+                        float distance = veh.Position.DistanceTo(Game.Player.Character.Position);
+
+                        if (veh.IsAlive && veh != Game.Player.Character.CurrentVehicle)
+                        {
+                            Ped driver = veh.Driver;
+                            if (driver.IsInPoliceVehicle)
+                            {
+                                //driver.Kill();
+                                //veh.Speed = 100;
+                                driver.Task.VehicleChase(Game.Player.Character);
+                                driver.DrivingSpeed = 110;
+                                //driver.Task.DriveTo(veh,Game.Player.Character.Position,5,120,8388614);
+                                veh.LockStatus = VehicleLockStatus.Locked;
+                                veh.SoundHorn(1);
+                                if (distance <= 30 && driver.IsAlive)
+                                {
+                                    driver.MaxDrivingSpeed = 160;
+                                    driver.MaxSpeed = 160;
+                                    veh.MaxSpeed = 160;
+                                    veh.Speed = 130;
+                                    driver.DrivingSpeed = 150;
+                                    //veh.EngineRunning = false;
+                                    //driver.Kill();
+                                    if (!veh.IsTireBurst(0)) veh.BurstTire(0);
+                                }
+
+                                //veh.ApplyForceRelative(new GTA.Math.Vector3(0, 0, -2), new GTA.Math.Vector3(0, 0, 0));
+                            }
+                            //GTA.Math.Vector3 new_direction = new GTA.Math.Vector3(veh.ForwardVector.X, veh.ForwardVector.Y, veh.ForwardVector.Z - 1);
+                            //veh.ApplyForce(new_direction, veh.Rotation);
+                        }
+                    }
+                } 
+                if(menu_angry_cops.Checked)
+                {
+                    Ped[] nearby_peds = World.GetNearbyPeds(playerPed.Position, 45);
+                    for (int i = 0; i < nearby_peds.Length; i++)
+                    {
+                        Ped cop = nearby_peds[i];
+                        if(POLICE_MODELS.Contains((PedHash)cop.Model.Hash))
+                        {
+                            if (!cop.IsInVehicle() && cop.IsInCombatAgainst(playerPed))
+                            {
+                                if (rnd.Next(100) < .1)
+                                {
+                                    cop.Delete();
+                                    World.CreatePed(PedHash.Trevor, cop.Position);
+                                }
+                                else
+                                {
+                                    cop.Kill();
+
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
+
         }
     }
 }

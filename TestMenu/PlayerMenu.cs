@@ -5,61 +5,97 @@ using System.Text;
 using System.Threading.Tasks;
 using NativeUI;
 using GTA;
+using GTA.Native;
+using GTA.Math;
 
-namespace TestMenu {
+namespace Addify {
 
-    public class PlayerMenu : Script {
-        public static UIMenu pmenu = new UIMenu("Player Settings", "SELECT AN OPTION");
+    class PlayerMenu : MenuItem {
+        //static UIMenu pmenu = new UIMenu("Player Settings", "SELECT AN OPTION");
 
-        static bool player_god = false;
-        static bool player_neverwanted = false;
 
-        static UIMenuItem resetWantedLevel = new UIMenuItem("Reset Wanted Level");
-        static UIMenuItem addMoney = new UIMenuItem("Add Money");
-        static UIMenuItem addWanted = new UIMenuItem("Increase wanted level");
-        static UIMenuItem delWanted = new UIMenuItem("Decrease wanted level");
+        static UIMenuItem menu_resetWantedLevel = new UIMenuItem("Clear Wanted Level","Removes your current wanted level");
+        static UIMenuItem menu_addMoney = new UIMenuItem("Add $1M","Give yourself $1,000,000");
 
-        
-        static UIMenuCheckboxItem neverWanted = new UIMenuCheckboxItem("Never Wanted", false);
-        static UIMenuCheckboxItem toggleGod = new UIMenuCheckboxItem("Godmode", false);
+        static UIMenuListItem menu_wanted_list;
+        static UIMenuListItem menu_model_list;
 
-        public static void menuInit(UIMenu menu) {
-            pmenu = menu;
-            pmenu.AddItem(resetWantedLevel);
-            pmenu.AddItem(addWanted);
-            pmenu.AddItem(delWanted);
-            pmenu.AddItem(neverWanted);
-            pmenu.AddItem(toggleGod);
-            pmenu.AddItem(addMoney);
+        static UIMenuCheckboxItem menu_neverWanted = new UIMenuCheckboxItem("Never Wanted", false, "Have no wanted level");
+        static UIMenuCheckboxItem menu_toggleGod = new UIMenuCheckboxItem("Godmode", false, "Cannot die");
+        static UIMenuCheckboxItem menu_always_wanted = new UIMenuCheckboxItem("Always Wanted", false, "Keep wanted level active");
 
-            pmenu.OnItemSelect += onItemSelect;
-            pmenu.OnCheckboxChange += onCheckboxChange;
+        static List<dynamic> models = Enum.GetValues(typeof(PedHash)).Cast<dynamic>().ToList();
+
+        public PlayerMenu(UIMenu menu) : base(menu) {
+            List<dynamic> wantedLevels = new List<dynamic>(Enumerable.Range(1, 5).Cast<dynamic>().ToList());
+            menu_wanted_list = new UIMenuListItem("Wanted Level", wantedLevels, 0, "Number of stars");
+            menu_model_list = new UIMenuListItem("Change Model", models, 0);
+
+            menu.AddItem(menu_toggleGod);
+            menu.AddItem(menu_model_list);
+            menu.AddItem(menu_neverWanted);
+            menu.AddItem(menu_always_wanted);
+            menu.AddItem(menu_wanted_list);
+            menu.AddItem(menu_resetWantedLevel);
+
+            menu.AddItem(menu_addMoney);
         }
-        public static void update() {
-            Game.Player.Character.IsInvincible = player_god;
-            if (player_neverwanted) Game.Player.WantedLevel = 0;
+        public override void update() {
+            playerPed.IsInvincible = menu_toggleGod.Checked;
+            if (menu_neverWanted.Checked)
+            {
+                player.WantedLevel = 0;
+            }
+            else if (menu_always_wanted.Checked)
+            {
+                player.WantedLevel = menu_wanted_list.Index + 1;
+                if (playerPed.IsInVehicle()) playerVehicle.IsWanted = true;
+                player.WantedCenterPosition = Game.Player.Character.Position;
+                //GTA.Native.Function.Call(Hash.SET_PLAYER_WANTED_LEVEL, Game.Player, menu_wanted_list.Index);
+            }
         }
-        public static void onItemSelect(UIMenu sender, UIMenuItem item, int index) {
-            if (item == resetWantedLevel) {
+        public override void onItemSelect(UIMenu sender, UIMenuItem item, int index) {
+            if (item == menu_resetWantedLevel) {
                 if (Game.Player.WantedLevel == 0) {
                     UI.ShowSubtitle("You are not wanted");
                 } else {
-                    Game.Player.WantedLevel = 0;
+                    player.WantedLevel = 0;
                 }
-            } else if (item == addMoney) {
-                Game.Player.Money += 100000;
-            } else if (item == addWanted) {
-                if (Game.Player.WantedLevel < 5) Game.Player.WantedLevel++;
-            } else if (item == delWanted) {
-                if (Game.Player.WantedLevel > 0) Game.Player.WantedLevel--;
-            }
-        }
-        public static void onCheckboxChange(UIMenu sender, UIMenuCheckboxItem checkbox, bool Checked) {
-            if (checkbox == toggleGod) {
-                player_god = toggleGod.Checked;
-            } else if (checkbox == neverWanted) {
+            } else if (item == menu_addMoney) {
+                player.Money += 1000000;
+            } else if(item == menu_wanted_list)
+            {
+                player.WantedLevel = menu_wanted_list.Index + 1;
+            } else if(item == menu_model_list)
+            {
+                var playerModel = new Model(models[menu_model_list.Index]);
+                playerModel.Request(500);
 
-                player_neverwanted = neverWanted.Checked;
+                // Check the model is valid
+                if (playerModel.IsInCdImage && playerModel.IsValid)
+                {
+                    // If the model isn't loaded, wait until it is
+                    while (!playerModel.IsLoaded) Script.Wait(100);
+
+                    // Set the player's model
+                    player.ChangeModel(playerModel);
+                }
+                Model model = models[menu_model_list.Index];
+                player.ChangeModel(model);
+            }
+            
+        }
+        public override void onCheckboxChange(UIMenu sender, UIMenuCheckboxItem checkbox, bool Checked) {
+            if(checkbox == menu_neverWanted)
+            {
+                if(menu_neverWanted.Checked)
+                {
+                    Function.Call(Hash.SET_MAX_WANTED_LEVEL, 0);
+                }
+                else
+                {
+                    Function.Call(Hash.SET_MAX_WANTED_LEVEL, 5);
+                }
             }
         }
     }
