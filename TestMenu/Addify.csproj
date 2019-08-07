@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DebugMenu.cs" />
+    <Compile Include="lib\SortedVehicles.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="PlayerMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="VehicleMenu.cs" />
     <Compile Include="WeaponMenu.cs" />
     <Compile Include="WorldMenu.cs" />
+    <Compile Include="WorldMenu_Traffic.cs" />
     <Compile Include="WorldMenu_Train.cs" />
     <Compile Include="WorldMenu_Weather.cs" />
   </ItemGroup>

@@ -16,6 +16,7 @@ namespace Addify
         static UIMenuCheckboxItem menu_npc_model = new UIMenuCheckboxItem("Get NPC Model", false);
         static UIMenuCheckboxItem menu_veh_model = new UIMenuCheckboxItem("Get Vehicle Models", false);
         static UIMenuCheckboxItem menu_mouse_loc = new UIMenuCheckboxItem("Tog Mouse Loc", false);
+        static UIMenuCheckboxItem menu_get_targeted_ent = new UIMenuCheckboxItem("Get Targeted Ent", false);
         static UIMenuCheckboxItem menu_get_loc = new UIMenuCheckboxItem("Get Location Hotkey", true);
         static UIMenuCheckboxItem menu_generic_toggle = new UIMenuCheckboxItem("Generic Toggle", false);
 
@@ -33,6 +34,7 @@ namespace Addify
         {
             menu.AddItem(menu_npc_model);
             menu.AddItem(menu_veh_model);
+            menu.AddItem(menu_get_targeted_ent);
             menu.AddItem(menu_mouse_loc);
             menu.AddItem(menu_mouse_loc_action);
             menu.AddItem(menu_get_loc);
@@ -79,7 +81,15 @@ namespace Addify
 
                 UI.ShowSubtitle($"X: {Cursor.Position.X} | y: {Cursor.Position.Y}");
             }
-            if(menu_npc_model.Checked)
+            if(menu_get_targeted_ent.Checked)
+            {
+                Entity ent = player.GetTargetedEntity();
+                if(ent != null && ent.Model != null)
+                {
+                    UI.Notify($"ent: {ent?.Model.ToString()}");
+                }
+            }
+            if (menu_npc_model.Checked)
             {
                 float closest_distance = 60;
                 Ped ped = null;

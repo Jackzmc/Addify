@@ -18,21 +18,39 @@ namespace Addify {
         static UIMenuItem menu_addMoney = new UIMenuItem("Add $1M","Give yourself $1,000,000");
 
         static UIMenuListItem menu_wanted_list;
-        static UIMenuListItem menu_model_list;
 
         static UIMenuCheckboxItem menu_neverWanted = new UIMenuCheckboxItem("Never Wanted", false, "Have no wanted level");
         static UIMenuCheckboxItem menu_toggleGod = new UIMenuCheckboxItem("Godmode", false, "Cannot die");
         static UIMenuCheckboxItem menu_always_wanted = new UIMenuCheckboxItem("Always Wanted", false, "Keep wanted level active");
 
-        static List<dynamic> models = Enum.GetValues(typeof(PedHash)).Cast<dynamic>().ToList();
+        static readonly PedHash[] MODEL_HASHES = (PedHash[])Enum.GetValues(typeof(PedHash));
 
         public PlayerMenu(UIMenu menu) : base(menu) {
             List<dynamic> wantedLevels = new List<dynamic>(Enumerable.Range(1, 5).Cast<dynamic>().ToList());
             menu_wanted_list = new UIMenuListItem("Wanted Level", wantedLevels, 0, "Number of stars");
-            menu_model_list = new UIMenuListItem("Change Model", models, 0);
-
             menu.AddItem(menu_toggleGod);
-            menu.AddItem(menu_model_list);
+            var model_menu = Main.Pool.AddSubMenu(menu, "Change Model >","Change Model");
+            foreach(PedHash hash in MODEL_HASHES)
+            {
+                var name = Enum.GetName(typeof(PedHash),hash).ToString();
+                var _item = new UIMenuItem(name);
+                _item.Activated += (sender, args) =>
+                {
+                    var playerModel = new Model(hash);
+                    playerModel.Request(500);
+                    // Check the model is valid
+                    if (playerModel.IsInCdImage && playerModel.IsValid)
+                    {
+                        // If the model isn't loaded, wait until it is
+                        while (!playerModel.IsLoaded) Script.Wait(100);
+
+                        // Set the player's model
+                        player.ChangeModel(playerModel);
+                    }
+                };
+                model_menu.AddItem(_item);
+            }
+
             menu.AddItem(menu_neverWanted);
             menu.AddItem(menu_always_wanted);
             menu.AddItem(menu_wanted_list);
@@ -66,22 +84,6 @@ namespace Addify {
             } else if(item == menu_wanted_list)
             {
                 player.WantedLevel = menu_wanted_list.Index + 1;
-            } else if(item == menu_model_list)
-            {
-                var playerModel = new Model(models[menu_model_list.Index]);
-                playerModel.Request(500);
-
-                // Check the model is valid
-                if (playerModel.IsInCdImage && playerModel.IsValid)
-                {
-                    // If the model isn't loaded, wait until it is
-                    while (!playerModel.IsLoaded) Script.Wait(100);
-
-                    // Set the player's model
-                    player.ChangeModel(playerModel);
-                }
-                Model model = models[menu_model_list.Index];
-                player.ChangeModel(model);
             }
             
         }

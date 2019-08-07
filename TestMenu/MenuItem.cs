@@ -12,7 +12,6 @@ namespace Addify
     abstract class MenuItem : Script
     {
         protected UIMenu menu;
-        protected MenuPool pool;
         protected Player player = Game.Player;
         protected Ped playerPed = Game.Player.Character;
         protected Vehicle playerVehicle;
@@ -21,7 +20,6 @@ namespace Addify
             this.menu = menu;
             menu.OnItemSelect += onItemSelect;
             menu.OnCheckboxChange += onCheckboxChange;
-            this.pool = Main.getMenuPool();
         }
         public virtual void update()
         {

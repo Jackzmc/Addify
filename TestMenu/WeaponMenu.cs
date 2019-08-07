@@ -15,6 +15,8 @@ namespace Addify {
 
         UIMenuItem giveAll = new UIMenuItem("Give all weapons");
         UIMenuItem removeAll = new UIMenuItem("Remove all weapons");
+        UIMenuCheckboxItem menu_unlimited_ammo = new UIMenuCheckboxItem("Unlimited Ammo", false);
+        UIMenuCheckboxItem menu_no_reload = new UIMenuCheckboxItem("No Reload", false);
         //todo: add inf. ammo, and no reload
 
         //Enum.GetValues(typeof(Weather)).Cast<dynamic>().ToList();
@@ -22,35 +24,40 @@ namespace Addify {
 
 
         public WeaponMenu(UIMenu menu) : base(menu) {
-            var pool = Main.getMenuPool();
             var weaponGroups = SortedWeapons.GetWeaponGroups();
             
             menu.AddItem(giveAll);
             menu.AddItem(removeAll);
+            var group_menu = Main.Pool.AddSubMenu(menu, "Groups >");
 
             foreach (SortedWeaponGroup group in weaponGroups)
             {
-                UI.Notify($"N: {group.Name}");
-                var submenu = pool.AddSubMenu(menu, group.Name);
-                List<dynamic> groups = group.Weapons.Cast<dynamic>().ToList();
+                var submenu = Main.Pool.AddSubMenu(group_menu, group.Name);
 
-                var _sub_get_all = new UIMenuItem("Get All");
-                var _sub_rem_all = new UIMenuItem("Remove All");
-                var _sub_get_list = new UIMenuListItem("Get Weapon", groups, 0);
+                var _sub_get_all = new UIMenuItem("[Get All]");
+                var _sub_rem_all = new UIMenuItem("[Remove All]");
                 submenu.AddItem(_sub_get_all);
                 submenu.AddItem(_sub_rem_all);
-                submenu.AddItem(_sub_get_list);
+                foreach (WeaponHash wpn in group.Weapons)
+                {
+                    var name = Enum.GetName(typeof(WeaponHash), (WeaponHash)wpn).ToString();
+                    var wpn_menu = new UIMenuItem(name,$"Spawn a {name}");
+                    wpn_menu.Activated += (sender, args) =>
+                    {
+                        playerPed.Weapons.Give(wpn, 999, true, true);
+
+                    };
+                    
+                    submenu.AddItem(wpn_menu);
+                }
+                
                 submenu.OnItemSelect += (sender, item, index) =>
                 {
-                    if (item == _sub_get_list)
-                    {
-                        playerPed.Weapons.Give(group.Weapons[_sub_get_list.Index], 999, true, true);
-                    }
-                    else if (item == _sub_get_all)
+                    if (item == _sub_get_all)
                     {
                         foreach (var wpn in group.Weapons)
                         {
-                            playerPed.Weapons.Give(wpn, 999, true, true);
+                            playerPed.Weapons.Give(wpn, 999, true, false);
                         }
                     }else if(item == _sub_rem_all)
                     {
@@ -62,6 +69,11 @@ namespace Addify {
                 };
             }
 
+        }
+
+        private void Wpn_menu_Activated(UIMenu sender, UIMenuItem selectedItem)
+        {
+            throw new NotImplementedException();
         }
 
         public override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
@@ -78,6 +90,12 @@ namespace Addify {
             else if (item == removeAll)
             {
                 Game.Player.Character.Weapons.RemoveAll();
+            }else if(item == menu_unlimited_ammo)
+            {
+                playerPed.Weapons.Current.InfiniteAmmo = menu_unlimited_ammo.Checked;
+            }else if(item == menu_no_reload)
+            {
+                playerPed.Weapons.Current.InfiniteAmmoClip = menu_no_reload.Checked;
             }
         }
 

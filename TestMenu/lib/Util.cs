@@ -50,6 +50,10 @@ namespace Addify
             if (ped.Model == null) return null;
             return Enum.GetName(typeof(PedHash), (PedHash)ped.Model.Hash).ToString();
         }
+        public static string GetWeaponName(Weapon wep)
+        {
+            return Enum.GetName(typeof(WeaponHash), (WeaponHash)wep.Model.Hash).ToString();
+        }
         public static void DrawSimpleText(String text,int x, int y, float scale = .4f, Color? _color = null)
         {
             var pt = new Point(x, y);

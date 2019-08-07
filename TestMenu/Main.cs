@@ -24,10 +24,7 @@ namespace Addify {
         private DebugMenu debugMenu;
 
         private Keys _open_menu_key;
-        public static MenuPool getMenuPool()
-        {
-            return menuPool;
-        }
+        public static MenuPool Pool { get => menuPool; }
         public Main() {
             config = ScriptSettings.Load("scripts\\addify.ini");
             _open_menu_key = config.GetValue("Keybinds", "openMenu", Keys.Subtract);
