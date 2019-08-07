@@ -23,6 +23,7 @@ namespace Addify
         }
         public virtual void update()
         {
+            if (this.playerPed != Game.Player.Character) this.playerPed = Game.Player.Character;
             if(this.playerVehicle != playerPed.CurrentVehicle) this.playerVehicle = playerPed.CurrentVehicle;
         }
         public virtual void onKeyDown(object sender, KeyEventArgs e)

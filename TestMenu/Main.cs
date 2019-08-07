@@ -43,6 +43,7 @@ namespace Addify {
             weaponMenu = new WeaponMenu(menuPool.AddSubMenu(mainMenu, "Weapons"));
             teleportMenu = new TeleportMenu(menuPool.AddSubMenu(mainMenu, "Teleport"));
             debugMenu = new DebugMenu(menuPool.AddSubMenu(mainMenu, "Debug"));
+            setupKeys();
 
 
             menuPool.RefreshIndex();
@@ -50,17 +51,44 @@ namespace Addify {
             KeyDown += onKeyDown;
             
         }
+        void setupKeys()
+        {
+            menuPool.SetKey(UIMenu.MenuControls.Up, Keys.NumPad8);
+            menuPool.SetKey(UIMenu.MenuControls.Down, Keys.NumPad2);
+            menuPool.SetKey(UIMenu.MenuControls.Left, Keys.NumPad4);
+            menuPool.SetKey(UIMenu.MenuControls.Right, Keys.NumPad6);
+            menuPool.SetKey(UIMenu.MenuControls.Back, Keys.NumPad0);
+            menuPool.SetKey(UIMenu.MenuControls.Select, Keys.NumPad5);
+           // mainMenu.SetKey(UIMenu.MenuControls.Up, Keys.NumPad8);
+           // menuPool.SetKey(UIMenu.MenuControls.Up, GTA.Control.PhoneUp);
+
+
+        }
+        int tick_counter = 0;
         void onTick(object sender, EventArgs e) {
+            tick_counter++;
+
             if (menuPool != null)
+            {
+
                 menuPool.ProcessMenus();
+                if (tick_counter > 3)
+                {
+                    menuPool.ProcessKey(Keys.NumPad0);
+                    /*menuPool.ProcessKey(Keys.NumPad2);
+                    menuPool.ProcessKey(Keys.NumPad4);
+                    menuPool.ProcessKey(Keys.NumPad6);
+                    menuPool.ProcessKey(Keys.NumPad5);
+                    menuPool.ProcessKey(Keys.NumPad0);*/
+                    tick_counter = 0;
+                }
+            }
+            //menuPool.ProcessKey(Keys.Nu)
+
             playerMenu.update();
             worldMenu.update();
             vehicleMenu.update();
             debugMenu.update();
-            if(World.GetWaypointPosition() != null) {
-                World.DrawSpotLight(World.GetWaypointPosition(), Game.Player.Character.ForwardVector, Color.Orange, 1, 2, 25, 2, 2);
-            }
-            
         }
         void onKeyDown(object sender, KeyEventArgs e) {
             try
@@ -78,7 +106,7 @@ namespace Addify {
             {
                 mainMenu.Visible = !mainMenu.Visible; //toggle
             }
-        
+
         }
 
     }
