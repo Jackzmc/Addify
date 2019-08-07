@@ -7,6 +7,7 @@ using NativeUI;
 using GTA;
 using GTA.Native;
 using GTA.Math;
+using System.Windows.Forms;
 
 namespace Addify {
 
@@ -20,15 +21,21 @@ namespace Addify {
         static UIMenuListItem menu_wanted_list;
 
         static UIMenuCheckboxItem menu_neverWanted = new UIMenuCheckboxItem("Never Wanted", false, "Have no wanted level");
+        static UIMenuCheckboxItem menu_noclip = new UIMenuCheckboxItem("Noclip [F6]", false);
         static UIMenuCheckboxItem menu_toggleGod = new UIMenuCheckboxItem("Godmode", false, "Cannot die");
         static UIMenuCheckboxItem menu_always_wanted = new UIMenuCheckboxItem("Always Wanted", false, "Keep wanted level active");
 
-        static readonly PedHash[] MODEL_HASHES = (PedHash[])Enum.GetValues(typeof(PedHash));
+        static readonly PedHash[] MODEL_HASHES = ((PedHash[])Enum.GetValues(typeof(PedHash))).Cast<PedHash>().OrderBy(x => x.ToString()).ToArray();
+
+        private static Keys key_noclip;
 
         public PlayerMenu(UIMenu menu) : base(menu) {
+            key_noclip = Main.config.GetValue("Keybinds", "Noclip", Keys.F6);
+
             List<dynamic> wantedLevels = new List<dynamic>(Enumerable.Range(1, 5).Cast<dynamic>().ToList());
             menu_wanted_list = new UIMenuListItem("Wanted Level", wantedLevels, 0, "Number of stars");
             menu.AddItem(menu_toggleGod);
+            menu.AddItem(menu_noclip);
             var model_menu = Main.Pool.AddSubMenu(menu, "Change Model >","Change Model");
             foreach(PedHash hash in MODEL_HASHES)
             {
@@ -58,8 +65,68 @@ namespace Addify {
 
             menu.AddItem(menu_addMoney);
         }
+
+        #region events
+
+        public override void onKeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == key_noclip)
+            {
+                menu_noclip.Checked = !menu_noclip.Checked;
+                ProcessNoclip();
+            }
+            if(menu_noclip.Checked)
+            {
+                Vector3 pos = playerPed.Position;
+                Vector3 rot = playerPed.Rotation;
+                //rot.X = Cursor.Position.X;
+                //rot.Y = Cursor.Position.Y;
+                if(e.KeyCode == Keys.W)
+                {
+                    pos.X += 5;
+                    pos.Y += 5;
+                }
+                else if(e.KeyCode == Keys.S)
+                {
+                    pos.X -= 5;
+                    pos.Y -= 5;
+                }
+                else if(e.KeyCode == Keys.A)
+                {
+                    
+                }
+                else if(e.KeyCode == Keys.D)
+                {
+                    playerPed.Heading -= 15f;
+                }else if(e.KeyCode == Keys.NumPad8)
+                {
+
+                }else if(e.KeyCode == Keys.NumPad2)
+                {
+
+                }else if(e.KeyCode == Keys.NumPad4)
+                {
+
+                }else if(e.KeyCode == Keys.NumPad6)
+                {
+
+                }
+                playerPed.Rotation = rot;
+                playerPed.PositionNoOffset = pos;
+            }
+        }
         public override void update() {
             playerPed.IsInvincible = menu_toggleGod.Checked;
+            if (menu_noclip.Checked)
+            {
+                playerPed.Task.ClearAll();
+
+                Vector3 pos = playerPed.Position;
+                //Vector3 rot = playerPed.Rotation;
+                playerPed.HasCollision = false;
+   
+                playerPed.PositionNoOffset = pos;
+            }
             if (menu_neverWanted.Checked)
             {
                 player.WantedLevel = 0;
@@ -98,7 +165,22 @@ namespace Addify {
                 {
                     Function.Call(Hash.SET_MAX_WANTED_LEVEL, 5);
                 }
+            }else if(checkbox == menu_noclip)
+            {
+                ProcessNoclip();
             }
         }
+        #endregion events
+        #region methods
+        private void ProcessNoclip()
+        {
+            playerPed.HasCollision = !menu_noclip.Checked;
+            playerPed.FreezePosition = menu_noclip.Checked;
+            if (!menu_noclip.Checked) //set noclip setitngs
+            {
+
+            }
+        }
+        #endregion methods
     }
 }

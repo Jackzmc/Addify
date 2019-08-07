@@ -72,7 +72,6 @@ namespace Addify
                 }
                 if (playerVehicle.CanTiresBurst == menu_bullet_proof_tires.Checked)
                 {
-                    UI.Notify($"VehicleUpdated: TiresCanBurst: {!menu_bullet_proof_tires.Checked}");
                     playerVehicle.CanTiresBurst = !menu_bullet_proof_tires.Checked;
                 }
                 
