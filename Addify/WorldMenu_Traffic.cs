@@ -12,6 +12,7 @@ namespace Addify
     class WorldMenu_Traffic : MenuItem
     {
         static UIMenuCheckboxItem menu_traffic_light_changer = new UIMenuCheckboxItem("Change Traffic Lights", false);
+        static UIMenuCheckboxItem menu_traffic_ai_changer = new UIMenuCheckboxItem("Affect AI?", false);
 
         static UIMenuListItem menu_traffic_light_opts;
 
@@ -26,46 +27,69 @@ namespace Addify
         public WorldMenu_Traffic(UIMenu menu) : base(menu)
         {
             menu_traffic_light_opts = new UIMenuListItem("Traffic Light Color", TRAFFIC_LIGHT_OPTIONS, 0);
-            menu.AddItem(menu_traffic_light_changer);
-            menu.AddItem(menu_traffic_light_opts);
+            AddMenus(menu,
+                menu_traffic_light_changer,
+                menu_traffic_light_opts,
+                menu_traffic_ai_changer
+            );
         }
-
+        int game_tick = 0;
         public override void update()
         {
-            if (menu_traffic_light_changer.Checked)
+            game_tick++;
+            if (menu_traffic_light_changer.Checked && game_tick > 16)
             {
-                Entity[] objs = World.GetNearbyEntities(playerPed.Position, 150f);
+                game_tick = 0;
+                Entity[] objs = World.GetNearbyEntities(playerPed.Position, 144f);
                 for (int i = 0; i < objs.Length; i++)
                 {
-                    Entity ent = objs[i];
+
+                    /*if(TRAFFIC_LIGHTS.Any(h => h == objs[i].Model.Hash))
+                    {
+                        Function.Call(Hash.SET_ENTITY_TRAFFICLIGHT_OVERRIDE, objs[i], menu_traffic_light_opts.Index);
+                        break;
+                    }*/
+                    
                     foreach (var h in TRAFFIC_LIGHTS)
                     {
-                        if (h == ent.Model.Hash)
+                        if (h == objs[i].Model.Hash)
                         {
-                            Function.Call(Hash.SET_ENTITY_TRAFFICLIGHT_OVERRIDE, ent, menu_traffic_light_opts.Index);
+                            Function.Call(Hash.SET_ENTITY_TRAFFICLIGHT_OVERRIDE, objs[i], menu_traffic_light_opts.Index);
                             break;
                         }
                     }
                 }
-                if (menu_traffic_light_opts.Index != 2)
+                if (menu_traffic_ai_changer.Checked)
                 {
-                    Vehicle[] vehs = World.GetNearbyVehicles(playerPed.Position, 100f);
-                    for (int i = 0; i < vehs.Length; i++)
+                    if (menu_traffic_light_opts.Index != 2)
                     {
-                        Vehicle veh = vehs[i];
-                        if (playerPed.IsInVehicle() && playerVehicle == veh) continue;
-                        if (menu_traffic_light_opts.Index == 0)
+                        Vehicle[] vehs = World.GetNearbyVehicles(playerPed.Position, 100f);
+                        for (int i = 0; i < vehs.Length; i++)
                         {
-                            //drivers ignore
-                            veh.Driver.DrivingStyle = DrivingStyle.IgnoreLights;
+                            if (playerPed.CurrentVehicle == vehs[i]) continue;
+                            Vehicle veh = vehs[i];
+                            Ped driver = veh.Driver;
+                            if (menu_traffic_light_opts.Index == 0) //green light, go
+                            {
+                                //drivers ignore
+                                if (veh.IsStoppedAtTrafficLights || veh.IsStopped)
+                                {
+                                    driver.Task.ClearAll();
+                                    driver.DrivingStyle = DrivingStyle.IgnoreLights;
+                                }
+                            }
+                            else if (menu_traffic_light_opts.Index == 1) //red, stop now
+                            {
+                                if(!veh.IsStoppedAtTrafficLights || !veh.IsStopped)
+                                {
+                                    driver.DrivingStyle = DrivingStyle.Normal;
+                                    driver.Task.ClearAll();
+                                    driver.Task.ParkVehicle(veh, veh.Position, veh.Heading,5,true);
+                                }
+                                
+                            }
+                            //veh.Driver.DrivingStyle = DrivingStyle.IgnoreLights;
                         }
-                        else if (menu_traffic_light_opts.Index == 1)
-                        {
-                            veh.Driver.DrivingStyle = DrivingStyle.Normal;
-                            veh.Driver.Task.ClearAll();
-                            veh.Driver.Task.ParkVehicle(veh, veh.Position, veh.Heading);
-                        }
-                        //veh.Driver.DrivingStyle = DrivingStyle.IgnoreLights;
                     }
                 }
             }
