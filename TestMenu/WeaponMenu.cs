@@ -71,11 +71,6 @@ namespace Addify {
 
         }
 
-        private void Wpn_menu_Activated(UIMenu sender, UIMenuItem selectedItem)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
         {
  

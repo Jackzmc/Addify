@@ -69,7 +69,7 @@ namespace Addify
                 int variation = (int) TRAIN_VARIATIONS[menu_train_model.Index];
                 Function.Call(Hash.CREATE_MISSION_TRAIN, variation, location.X, location.Y, location.Z, 0);
             }else if(item == menu_metro_model)
-            { 
+            {
                 var trainModel = new Model(VehicleHash.MetroTrain);
                 trainModel.Request(500);
 
