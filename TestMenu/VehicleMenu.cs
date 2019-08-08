@@ -1,4 +1,5 @@
-﻿using GTA;
+﻿using Addify.lib;
+using GTA;
 using GTA.Native;
 using NativeUI;
 using System;
@@ -15,6 +16,8 @@ namespace Addify
         static UIMenuCheckboxItem menu_bullet_proof_tires = new UIMenuCheckboxItem("Bulletproof Tires", true);
         static UIMenuCheckboxItem menu_show_health = new UIMenuCheckboxItem("Show Health", true);
         static UIMenuCheckboxItem menu_speed = new UIMenuCheckboxItem("Speedometer", true);
+        static UIMenuCheckboxItem menu_spawner_spawninveh = new UIMenuCheckboxItem("Spawn in Vehicle", true);
+        static UIMenuCheckboxItem menu_spawner_showblip = new UIMenuCheckboxItem("Add Blip for Spawned Vehicles", true);
         static UIMenuListItem menu_speed_type;
 
         static readonly VehicleHash[] vehicles = (VehicleHash[])Enum.GetValues(typeof(VehicleHash));
@@ -30,22 +33,32 @@ namespace Addify
         {
             SPEED_POINT = new System.Drawing.Point(SPEED_X, SPEED_Y);
             menu_speed_type = new UIMenuListItem("Display", speedTypes, 0);
-            var spawn_menu = Main.Pool.AddSubMenu(menu, "Spawn Vehicles");
-            foreach(VehicleHash hash in vehicles)
+            var spawn_menu = Main.Pool.AddSubMenu(menu, "Vehicles >>");
+            spawn_menu.AddItem(menu_spawner_spawninveh);
+            spawn_menu.AddItem(menu_spawner_showblip);
+            foreach(SortedVehicleGroup group in SortedVehicleGroup.GetVehicleGroups())
             {
-                var name = Enum.GetName(typeof(VehicleHash), hash).ToString();
-                var _item = new UIMenuItem(name);
-                _item.Activated += (sender, args) =>
+                var submenu = Main.Pool.AddSubMenu(spawn_menu, group.Name);
+                foreach(KeyValuePair<string,VehicleHash> pair in group.Vehicles)
                 {
-                    Vehicle veh = GTA.World.CreateVehicle(hash, playerPed.Position.Around(5));
-                    Blip b = veh.AddBlip();
-                    b.IsFriendly = true;
-                    b.IsShortRange = true;
-                    b.Name = String.Format("Spawned Car {0}", Enum.GetName(typeof(VehicleHash), (VehicleHash)veh.Model.Hash).ToString());
-                    b.Sprite = BlipSprite.PersonalVehicleCar;
-                    playerPed.SetIntoVehicle(veh, VehicleSeat.Driver);
-                };
-                spawn_menu.AddItem(_item);
+                    var _menu = new UIMenuItem(pair.Key, $"Spawn a {pair.Key}");
+                    _menu.Activated += (sender, args) =>
+                    {
+                        Vehicle veh = GTA.World.CreateVehicle(pair.Value, playerPed.Position.Around(5));
+                        if (menu_spawner_showblip.Checked)
+                        {
+                            Blip b = veh.AddBlip();
+                            b.IsFriendly = true;
+                            b.IsShortRange = true;
+                            b.Name = String.Format("Spawned Car {0}", Enum.GetName(typeof(VehicleHash), (VehicleHash)veh.Model.Hash).ToString());
+                            b.Sprite = BlipSprite.PersonalVehicleCar;
+                        }
+                        if (menu_spawner_spawninveh.Checked)
+                        {
+                            playerPed.SetIntoVehicle(veh, VehicleSeat.Driver);
+                        }
+                    };
+                }
             }
 
             menu.AddItem(menu_godmode);
