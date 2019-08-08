@@ -163,7 +163,7 @@ namespace Addify.lib
         {
             {"Bus", VehicleHash.Bus },
             {"Prison Bus", VehicleHash.PBus },
-            {"Prison Bus", VehicleHash.PBus2 },
+            {"Prison Bus 2", VehicleHash.PBus2 },
             {"Rental", VehicleHash.RentalBus },
             {"Airport Bus", VehicleHash.Airbus },
             {"Caddy",VehicleHash.Caddy },

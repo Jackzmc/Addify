@@ -92,6 +92,7 @@ namespace Addify {
             base.update();
             weatherMenu.update();
             trainMenu.update();
+            trafficMenu.update();
             
             if(menu_no_helis.Checked)
             {

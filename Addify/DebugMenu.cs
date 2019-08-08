@@ -17,6 +17,7 @@ namespace Addify
         static UIMenuCheckboxItem menu_veh_model = new UIMenuCheckboxItem("Get Vehicle Models", false);
         static UIMenuCheckboxItem menu_mouse_loc = new UIMenuCheckboxItem("Tog Mouse Loc", false);
         static UIMenuCheckboxItem menu_get_targeted_ent = new UIMenuCheckboxItem("Get Targeted Ent", false);
+        static UIMenuCheckboxItem menu_fps_counter = new UIMenuCheckboxItem("FPS Counter", true);
         static UIMenuCheckboxItem menu_get_loc = new UIMenuCheckboxItem("Get Location Hotkey", true);
         static UIMenuCheckboxItem menu_generic_toggle = new UIMenuCheckboxItem("Generic Toggle", false);
 
@@ -32,14 +33,17 @@ namespace Addify
 
         public DebugMenu(UIMenu menu) : base(menu)
         {
-            menu.AddItem(menu_npc_model);
-            menu.AddItem(menu_veh_model);
-            menu.AddItem(menu_get_targeted_ent);
-            menu.AddItem(menu_mouse_loc);
-            menu.AddItem(menu_mouse_loc_action);
-            menu.AddItem(menu_get_loc);
-            menu.AddItem(menu_generic_toggle);
-            menu.AddItem(menu_generic_click);
+            AddMenus(menu,
+                menu_npc_model,
+                menu_veh_model,
+                menu_get_targeted_ent,
+                menu_mouse_loc,
+                menu_mouse_loc_action,
+                menu_get_loc,
+                menu_fps_counter,
+                menu_generic_click,
+                menu_generic_toggle
+            );
         }
         public override void onKeyDown(object sender, KeyEventArgs e)
         {
@@ -73,9 +77,20 @@ namespace Addify
                 
             }
         }
+        int frame_counter = 0;
+        int last_fps = 0;
         public override void update()
         {
             base.update();
+            frame_counter++;
+            if (menu_fps_counter.Checked ) {
+                Util.DrawSimpleText($"{last_fps} fps", UI.WIDTH-50, 0,.4f, System.Drawing.Color.Green);
+                if (frame_counter > last_fps)
+                {
+                    last_fps = (int)Game.FPS;
+                    frame_counter = 0;
+                }
+            }
             if (menu_mouse_loc.Checked)
             {
 

@@ -21,6 +21,13 @@ namespace Addify
             menu.OnItemSelect += onItemSelect;
             menu.OnCheckboxChange += onCheckboxChange;
         }
+        public void AddMenus(UIMenu menu, params UIMenuItem[] menus)
+        {
+            for(int i=0;i<menus.Length;i++)
+            {
+                menu.AddItem(menus[i]);
+            }
+        }
         public virtual void update()
         {
             if (this.playerPed != Game.Player.Character) this.playerPed = Game.Player.Character;
