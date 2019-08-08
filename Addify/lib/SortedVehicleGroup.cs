@@ -51,7 +51,14 @@ namespace Addify.lib
             SUVs,
             Utility,
             Vans,
-            DLC_ImportExport
+            DLC_ImportExport,
+            DLC_Gunrunning,
+            DLC_Smugglers,
+            DLC_Doomsday,
+            DLC_AfterHours,
+            DLC_ArenaWar,
+            DLC_Vinewood
+            
         }
         public static SortedVehicleGroup[] GetVehicleGroups()
         {
@@ -106,6 +113,20 @@ namespace Addify.lib
                     return new SortedVehicleGroup("Utility", SortedVehicles.UTILITY);
                 case VehicleGroup.Vans:
                     return new SortedVehicleGroup("Vans", SortedVehicles.VANS);
+                case VehicleGroup.DLC_ImportExport:
+                    return new SortedVehicleGroup("Import/Export", SortedVehicles.IMPORT_EXPORT);
+                case VehicleGroup.DLC_Gunrunning:
+                    return new SortedVehicleGroup("Gunrunning", SortedVehicles.GUNRUNNING);
+                case VehicleGroup.DLC_Smugglers:
+                    return new SortedVehicleGroup("Smuggler's Run", SortedVehicles.SMUGGLERS);
+                case VehicleGroup.DLC_Doomsday:
+                    return new SortedVehicleGroup("The Doomsday Heist", SortedVehicles.DOOMSDAY);
+                case VehicleGroup.DLC_AfterHours:
+                    return new SortedVehicleGroup("After Hours", SortedVehicles.AFTER_HOURS);
+                case VehicleGroup.DLC_ArenaWar:
+                    return new SortedVehicleGroup("Arena War", SortedVehicles.ARENA_WARS);
+                case VehicleGroup.DLC_Vinewood:
+                    return new SortedVehicleGroup("Diamond Casino & Resort ", SortedVehicles.VINEWOOD);
                 default:
                     return null;
             }
