@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Addify", "TestMenu\Addify.csproj", "{B3D275DF-BB2F-40AE-873D-DC8EA7BC1685}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Addify", "Addify\Addify.csproj", "{B3D275DF-BB2F-40AE-873D-DC8EA7BC1685}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

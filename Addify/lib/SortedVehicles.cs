@@ -112,7 +112,7 @@ namespace Addify.lib
         };
         public static readonly VehicleHash[] IMPORT_EXPORT = new VehicleHash[]
         {
-            VehicleHash.Elegy,  VehicleHash.Tempesta,  VehicleHash.ItaliGTB,  VehicleHash.ItaliGTB2,  VehicleHash.Nero,  VehicleHash.Nero2,  VehicleHash.Specter,  VehicleHash.Specter2,  VehicleHash.Diablous2,  VehicleHash.Blazer5,  VehicleHash.Ruiner2,  VehicleHash.Dune4,  VehicleHash.Dune5,  VehicleHash.Phantom2,  VehicleHash.Voltic2,  VehicleHash.Penetrator,  VehicleHash.Boxville5,  VehicleHash.Wastelander,  VehicleHash.Technical2,  VehicleHash.FCR,  VehicleHash.FCR2,  VehicleHash.Comet3,  VehicleHash.ruiner3
+            VehicleHash.Elegy,  VehicleHash.Tempesta,  VehicleHash.ItaliGTB,  VehicleHash.ItaliGTB2,  VehicleHash.Nero,  VehicleHash.Nero2,  VehicleHash.Specter,  VehicleHash.Specter2,  VehicleHash.Diablous2,  VehicleHash.Blazer5,  VehicleHash.Ruiner2,  VehicleHash.Dune4,  VehicleHash.Dune5,  VehicleHash.Phantom2,  VehicleHash.Voltic2,  VehicleHash.Penetrator,  VehicleHash.Boxville5,  VehicleHash.Wastelander,  VehicleHash.Technical2,  VehicleHash.FCR,  VehicleHash.FCR2,  VehicleHash.Comet3,  VehicleHash.Ruiner3
         };
         public static readonly VehicleHash[] GUNRUNNING = new VehicleHash[]
         {
