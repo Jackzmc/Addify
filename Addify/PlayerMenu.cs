@@ -134,7 +134,7 @@ namespace Addify {
             else if (menu_always_wanted.Checked)
             {
                 player.WantedLevel = menu_wanted_list.Index + 1;
-                if (playerPed.IsInVehicle()) playerVehicle.IsWanted = true;
+                if (playerPed.IsInVehicle()) playerPed.CurrentVehicle.IsWanted = true;
                 player.WantedCenterPosition = Game.Player.Character.Position;
                 //GTA.Native.Function.Call(Hash.SET_PLAYER_WANTED_LEVEL, Game.Player, menu_wanted_list.Index);
             }

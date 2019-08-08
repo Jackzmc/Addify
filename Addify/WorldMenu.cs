@@ -12,7 +12,6 @@ using NativeUI;
 namespace Addify {
     class WorldMenu : MenuItem {
 
-        static Random rnd = new Random();
 
         static UIMenuCheckboxItem menu_blackout = new UIMenuCheckboxItem("Blackout", false);
         static UIMenuCheckboxItem menu_no_helis = new UIMenuCheckboxItem("No Police Helicopters", true);
@@ -133,7 +132,7 @@ namespace Addify {
                         if (veh.IsAlive && veh != Game.Player.Character.CurrentVehicle)
                         {
                             Ped driver = veh.Driver;
-                            if (driver.IsInPoliceVehicle)
+                            if (POLICE_MODELS.Contains((PedHash)driver.Model.Hash))
                             {
                                 //driver.Kill();
                                 //veh.Speed = 100;
@@ -171,16 +170,7 @@ namespace Addify {
                         {
                             if (!cop.IsInVehicle() && cop.IsInCombatAgainst(playerPed))
                             {
-                                if (rnd.Next(100) < .1)
-                                {
-                                    cop.Delete();
-                                    World.CreatePed(PedHash.Trevor, cop.Position);
-                                }
-                                else
-                                {
-                                    cop.Kill();
-
-                                }
+                                cop.Kill();
                             }
                         }
                         
