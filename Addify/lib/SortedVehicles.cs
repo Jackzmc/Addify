@@ -41,12 +41,14 @@ namespace Addify.lib
         };
         public static readonly SortedDictionary<string, VehicleHash> MILITARY = new SortedDictionary<string, VehicleHash>
         {
-            {"Tank", VehicleHash.ArmyTanker },
+            {"Tank",VehicleHash.Rhino },
+            {"Army Gastank", VehicleHash.ArmyTanker },
             {"Army Flatbed Trailer", VehicleHash.ArmyTrailer },
             {"Army Flatbed Cutter", VehicleHash.ArmyTrailer2 },
             {"Barracks Covered", VehicleHash.Barracks },
             {"Barracks Semi", VehicleHash.Barracks2 },
-            {"Barracks Covered 2", VehicleHash.Barracks3 }
+            {"Barracks Covered 2", VehicleHash.Barracks3 },
+            {"Crusader", VehicleHash.Crusader }
         };
         public static readonly SortedDictionary<string, VehicleHash> CYCLES = new SortedDictionary<string, VehicleHash>
         {
