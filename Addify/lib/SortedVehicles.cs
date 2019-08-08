@@ -1,18 +1,14 @@
 ﻿using GTA.Native;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Addify.lib
 {
-    class SortedVehicles
+    public class SortedVehicles
     {
-        public static readonly VehicleHash[] UNSORTED_VEHICLES = new VehicleHash[]
+        /*public static readonly VehicleHash[] UN_VEHICLES = new VehicleHash[]
         {
-            VehicleHash.Adder, VehicleHash.Airbus, VehicleHash.Airtug, VehicleHash.Akuma, VehicleHash.Asea, VehicleHash.Asea2, VehicleHash.Asterope, VehicleHash.Bagger, VehicleHash.BaleTrailer, VehicleHash.Baller, VehicleHash.Baller2, VehicleHash.Banshee, VehicleHash.Barracks, VehicleHash.Bati, VehicleHash.Bati2, VehicleHash.Benson, VehicleHash.BfInjection, VehicleHash.Biff, VehicleHash.Bison, VehicleHash.Bison2, VehicleHash.Bison3, VehicleHash.BJXL, VehicleHash.Blazer, VehicleHash.Blazer2, VehicleHash.Blazer3, VehicleHash.Blimp, VehicleHash.Blista, VehicleHash.BoatTrailer, VehicleHash.BobcatXL, VehicleHash.Boxville, VehicleHash.Boxville2, VehicleHash.Boxville3, VehicleHash.Buccaneer, VehicleHash.Bullet, VehicleHash.Carbonizzare, VehicleHash.Cavalcade, VehicleHash.Cavalcade2, VehicleHash.Cheetah, VehicleHash.Coach, VehicleHash.CogCabrio, VehicleHash.Comet2, VehicleHash.Coquette, VehicleHash.Cruiser, VehicleHash.Crusader, VehicleHash.Cuban800, VehicleHash.Daemon, VehicleHash.Dilettante, VehicleHash.Dilettante2, VehicleHash.DLoader, VehicleHash.DockTrailer, VehicleHash.Docktug, VehicleHash.Dominator, VehicleHash.Double, VehicleHash.Dubsta, VehicleHash.Dubsta2, VehicleHash.Dune, VehicleHash.Dune2, VehicleHash.Elegy2, VehicleHash.Emperor, VehicleHash.Emperor2, VehicleHash.Emperor3, VehicleHash.EntityXF, VehicleHash.Exemplar, VehicleHash.F620, VehicleHash.Faggio2,
-        };
+            VehicleHash.Adder, VehicleHash.Airbus, VehicleHash.Airtug, VehicleHash.Akuma, VehicleHash.Asea, VehicleHash.Asea2, VehicleHash.Asterope, VehicleHash.Bagger, VehicleHash.BaleTrailer, VehicleHash.Baller, VehicleHash.Baller2, VehicleHash.Banshee, VehicleHash.Barracks, VehicleHash.Bati, VehicleHash.Bati2, VehicleHash.Benson, VehicleHash.BfInjection, VehicleHash.Biff, VehicleHash.Bison, VehicleHash.Bison2, VehicleHash.Bison3, VehicleHash.BJXL, VehicleHash.Blazer, VehicleHash.Blazer2, VehicleHash.Blazer3, VehicleHash.Blimp, VehicleHash.Blista, VehicleHash.BoatTrailer, VehicleHash.BobcatXL, VehicleHash.Boxville, VehicleHash.Boxville2, VehicleHash.Boxville3, VehicleHash.Buccaneer, VehicleHash.Bullet, VehicleHash.Carbonizzare, VehicleHash.Cavalcade, VehicleHash.Cavalcade2, VehicleHash.Cheetah, VehicleHash.Coach, VehicleHash.CogCabrio, VehicleHash.Comet2, VehicleHash.Coquette, VehicleHash.Cruiser, VehicleHash.Crusader, VehicleHash.Cuban800, VehicleHash.Daemon, VehicleHash.Dilettante, VehicleHash.Dilettante2, VehicleHash.DLoader, VehicleHash.DockTrailer, VehicleHash.Docktug, VehicleHash.Dominator, VehicleHash.Double, VehicleHash.Dubsta, VehicleHash.Dubsta2, VehicleHash.Dune, VehicleHash.Dune2, VehicleHash.Elegy2, VehicleHash.Emperor, VehicleHash.Emperor2, VehicleHash.Emperor3, VehicleHash.EntityXF, VehicleHash.Exemplar, VehicleHash.F620, VehicleHash.Faggio2
+        };*/
         public static readonly SortedDictionary<string, VehicleHash> HELICOPTERS = new SortedDictionary<string, VehicleHash>()
         {
             {"Annihilator", VehicleHash.Annihilator },
@@ -26,10 +22,6 @@ namespace Addify.lib
             {"Frogger FBI",VehicleHash.Frogger2 },
             {"Police Heli",VehicleHash.Polmav }
         };
-        /*public readonly SortedDictionary<string, VehicleHash> HELICOPTERS = new SortedDictionary<string, VehicleHash>
-        {
-            VehicleHash.Annihilator, VehicleHash.Buzzard, VehicleHash.Buzzard2, VehicleHash.Cargobob, VehicleHash.Cargobob2, VehicleHash.Cargobob3, VehicleHash.Frogger, VehicleHash.Frogger2, VehicleHash.Polmav
-        };*/
         public static readonly SortedDictionary<string, VehicleHash> EMERGENCY = new SortedDictionary<string, VehicleHash>
         {
             {"Ambulance", VehicleHash.Ambulance },
@@ -50,11 +42,11 @@ namespace Addify.lib
         public static readonly SortedDictionary<string, VehicleHash> MILITARY = new SortedDictionary<string, VehicleHash>
         {
             {"Tank", VehicleHash.ArmyTanker },
-            {"Army Flatbed Trailerr", VehicleHash.ArmyTrailer },
+            {"Army Flatbed Trailer", VehicleHash.ArmyTrailer },
             {"Army Flatbed Cutter", VehicleHash.ArmyTrailer2 },
             {"Barracks Covered", VehicleHash.Barracks },
             {"Barracks Semi", VehicleHash.Barracks2 },
-            {"Barracks Covered 2", VehicleHash.Barracks3 },
+            {"Barracks Covered 2", VehicleHash.Barracks3 }
         };
         public static readonly SortedDictionary<string, VehicleHash> CYCLES = new SortedDictionary<string, VehicleHash>
         {
@@ -64,7 +56,7 @@ namespace Addify.lib
             {"Fixter",VehicleHash.Fixter},
             {"Scorcher",VehicleHash.Scorcher},
             {"Tri-Cycles Race Bike",VehicleHash.TriBike3},
-            {"Whippet Race Bike",VehicleHash.TriBike},
+            {"Whippet Race Bike",VehicleHash.TriBike}
         };
         public static readonly SortedDictionary<string, VehicleHash> BOATS = new SortedDictionary<string, VehicleHash>()
         {
@@ -100,7 +92,7 @@ namespace Addify.lib
             {"Phantom",VehicleHash.Phantom},
             {"Pounder",VehicleHash.Pounder},
             {"Stockade",VehicleHash.Stockade},
-            {"Mule (Armored)",VehicleHash.Mule2},
+            {"Mule (Armored)",VehicleHash.Mule2}
         };
         public static readonly SortedDictionary<string, VehicleHash> COMPACTS = new SortedDictionary<string, VehicleHash>
         {
@@ -112,7 +104,7 @@ namespace Addify.lib
             {"Panto",VehicleHash.Panto},
             {"Rhapsody",VehicleHash.Rhapsody},
             {"Brioso R/A",VehicleHash.Brioso },
-            {"Issi Classic", VehicleHash.Issi3 },
+            {"Issi Classic", VehicleHash.Issi3 }
         };
         public static readonly SortedDictionary<string, VehicleHash> COUPES = new SortedDictionary<string, VehicleHash>
         {
@@ -159,7 +151,7 @@ namespace Addify.lib
             {"Xero Blimp",VehicleHash.Blimp2},
             {"Hydra",VehicleHash.Hydra},
             {"Velum (5-Seater)",VehicleHash.Velum2},
-            {"Nimbus",VehicleHash.Nimbus},
+            {"Nimbus",VehicleHash.Nimbus}
             //smuggler
             
         };
@@ -170,7 +162,10 @@ namespace Addify.lib
         public static readonly SortedDictionary<string, VehicleHash> SERVICE = new SortedDictionary<string, VehicleHash>
         {
             {"Bus", VehicleHash.Bus },
-            {"Airport Bus", VehicleHash.PBus },
+            {"Prison Bus", VehicleHash.PBus },
+            {"Prison Bus", VehicleHash.PBus2 },
+            {"Rental", VehicleHash.RentalBus },
+            {"Airport Bus", VehicleHash.Airbus },
             {"Caddy",VehicleHash.Caddy },
             {"Caddy 2", VehicleHash.Caddy2 },
             {"Tow Truck", VehicleHash.TowTruck },
@@ -199,11 +194,11 @@ namespace Addify.lib
         public static readonly SortedDictionary<string, VehicleHash> VANS = new SortedDictionary<string, VehicleHash>
         {
             {"Burrito Van", VehicleHash.Burrito },
-            {"Burrito Van 2", VehicleHash.Burrito2 },
+            {"Burrito Van 2", VehicleHash.Burrito2},
             {"Burrito Van 3", VehicleHash.Burrito3 },
-            {"Burrito Van 4",  VehicleHash.Burrito4 },
-            {"Burrito Van 5", VehicleHash.Burrito5 },
-            {"Camper Van", VehicleHash.Camper }
+            {"Burrito Van 4",  VehicleHash.Burrito4},
+            {"Burrito Van 5",  VehicleHash.Burrito5},
+            {"Camper Van",  VehicleHash.Camper}
         };
         public static readonly SortedDictionary<string, VehicleHash> IMPORT_EXPORT = new SortedDictionary<string, VehicleHash>
         {
@@ -217,7 +212,7 @@ namespace Addify.lib
             {"Specter 2",VehicleHash.Specter2},
             {"Diablous 2",VehicleHash.Diablous2},
             {"Blazer",VehicleHash.Blazer5},
-            {"Ruiner??",VehicleHash.Ruiner2},
+            {"Ruiner2??",VehicleHash.Ruiner2},
             {"Dune 4",VehicleHash.Dune4},
             {"Dune 5",VehicleHash.Dune5},
             {"Phantom Wedge",VehicleHash.Phantom2},
@@ -229,7 +224,7 @@ namespace Addify.lib
             {"FCR?",VehicleHash.FCR},
             {"FCR2?",VehicleHash.FCR2},
             {"Comet",VehicleHash.Comet3},
-            {"Ruiner??",VehicleHash.Ruiner3},
+            {"Ruiner??",VehicleHash.Ruiner3}
         };
         public static readonly SortedDictionary<string, VehicleHash> GUNRUNNING = new SortedDictionary<string, VehicleHash>
         {
@@ -245,7 +240,7 @@ namespace Addify.lib
             {"Terrorbyte",VehicleHash.Terrorbyte },
             {"Scarab",VehicleHash.Scarab },
             {"Blimp",VehicleHash.Blimp3},
-            {"B-11 Strikeforce",VehicleHash.Strikeforce},
+            {"B-11 Strikeforce",VehicleHash.Strikeforce}
 
         };
         public static readonly SortedDictionary<string, VehicleHash> ARENA_WARS = new SortedDictionary<string, VehicleHash>
@@ -260,27 +255,54 @@ namespace Addify.lib
             {"Khanjari Tank",VehicleHash.Khanjari },
             {"Thruster Jetpack",VehicleHash.Thruster },
             {"Volatol",VehicleHash.Volatol},
-            {"Avenger",VehicleHash.Avenger },
+            {"Avenger",VehicleHash.Avenger }
         };
         public static readonly SortedDictionary<string, VehicleHash> SMUGGLERS = new SortedDictionary<string, VehicleHash>
         {
             {"Alpha-Z1",VehicleHash.AlphaZ1},
             {"LF-22 Starling",VehicleHash.Starling},
-            {"Rogue",VehicleHash.Rogue},
+            {"Grotti Visione",VehicleHash.Visione },
             {"Tula",VehicleHash.Tula},
-            //{"Ultralight",VehicleHash.},
+            {"Nagasaki Havok",VehicleHash.Havok},
+            {"Nagasaki Ultralight",VehicleHash.Microlight },
             {"V-65 Moltok",VehicleHash.Molotok},
+            {"Vapid Retinue",VehicleHash.Retinue },
+            {"Rogue",VehicleHash.Rogue },
+            {"Rapid GT Classic",VehicleHash.RapidGT3 },
             {"Bombushka",VehicleHash.Bombushka},
             {"Howard NX-25",VehicleHash.Howard},
             {"Mogul",VehicleHash.Mogul},
             {"Pyro",VehicleHash.Pyro},
             {"Seabreeze",VehicleHash.Seabreeze},
+            {"Vigilante",VehicleHash.Vigilante },
             {"Nokota",VehicleHash.Nokota},
+            {"Coil Cyclone",VehicleHash.Cyclone },
+            {"FH-1 Hunter",VehicleHash.Hunter }
         };
         public static readonly SortedDictionary<string, VehicleHash> VINEWOOD = new SortedDictionary<string, VehicleHash>
         {
-
+            {"Annis S80RR",VehicleHash.S80 },
+            {"Enus Paragon R",VehicleHash.Paragon },
+            {"Enus Paragon R (Armored)",VehicleHash.Paragon2 },
+            {"Obey 8F Drafter",VehicleHash.Drafter },
+            {"Thruffade Thrax",VehicleHash.Thrax},
+            {"Vapid Caracara 4x4", VehicleHash.Caracara2},
+            {"Weeny Issi Sport", VehicleHash.Issi7},
+            {"Vysser Neo",VehicleHash.Neo},
+            {"Bravado Guantlet Classic",VehicleHash.Gauntlet2 },
+            {"Zorrusso",VehicleHash.Zorrusso },
+            {"Zion 3",VehicleHash.Zion3  },
+            {"Rrocket", VehicleHash.RRocket },
+            {"Gaunlet 3", VehicleHash.Gauntlet3 },
+            {"Gaunlet 4", VehicleHash.Gauntlet4 },
+            {"Hellion", VehicleHash.Hellion },
+            {"Emerus",VehicleHash.Emerus },
+            {"Jugular",VehicleHash.Jugular },
+            {"Krieger",VehicleHash.Krieger },
+            {"Locust", VehicleHash.Locust},
+            {"Nebula", VehicleHash.Nebula},
+            {"Novak",VehicleHash.Novak },
+            {"Peyote2",VehicleHash.Peyote2 }
         };
     }
-
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Addify.lib
 {
-    class Logger
+    public class Logger
     {
         private const string FILE_NAME = "Addify.log";
         private const string DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.fff";
@@ -28,7 +28,9 @@ namespace Addify.lib
         /// <param name="text">Message</param>
         public void Debug(string text)
         {
+        #if DEBUG
             WriteFormattedLog(LogLevel.DEBUG, text);
+        #endif
         }
 
         /// <summary>
@@ -45,7 +47,16 @@ namespace Addify.lib
         /// <param name="exception">Exception</param>
         public void Error(Exception exception)
         {
-            WriteFormattedLog(LogLevel.ERROR, exception.StackTrace);
+            WriteFormattedLog(LogLevel.ERROR, exception.Message + "\n" + exception.StackTrace);
+        }
+        /// <summary>
+        /// Log an ERROR message
+        /// </summary>
+        /// <param name="message">Prefix Message</param>
+        /// <param name="exception">Exception</param>
+        public void Error(String message,Exception exception)
+        {
+            WriteFormattedLog(LogLevel.ERROR, message + "\n" + exception.Message + "\n" + exception.StackTrace);
         }
 
         /// <summary>
@@ -62,7 +73,17 @@ namespace Addify.lib
         /// <param name="exception">Exception</param>
         public void Fatal(Exception exception)
         {
-            WriteFormattedLog(LogLevel.FATAL, exception.StackTrace);
+            WriteFormattedLog(LogLevel.FATAL, exception.Message + "\n" + exception.StackTrace);
+        }
+
+        /// <summary>
+        /// Log a FATAL ERROR message
+        /// </summary>
+        /// <param name="message">Prefix Message</param>
+        /// <param name="exception">Exception</param>
+        public void Fatal(String message, Exception exception)
+        {
+            WriteFormattedLog(LogLevel.FATAL, message + "\n" + exception.Message + "\n" + exception.StackTrace);
         }
 
         /// <summary>

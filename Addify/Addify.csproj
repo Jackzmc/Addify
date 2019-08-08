@@ -8,9 +8,10 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Addify</RootNamespace>
     <AssemblyName>Addify</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -64,9 +65,8 @@
       <HintPath>..\packages\NativeUI.1.9.0\lib\net452\NativeUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ScriptHookVDotNet2, Version=2.10.9.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\ScriptHookVDotNet2.2.10.9\lib\net40\ScriptHookVDotNet2.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="ScriptHookVDotNet2, Version=2.10.10.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\ScriptHookVDotNet2.2.10.10\lib\net40\ScriptHookVDotNet2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -74,6 +74,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y "$(TargetPath)" "D:\Jackz\Documents\GTAV Mods\scripts\$(TargetFileName)"</PostBuildEvent>
+    <PostBuildEvent>xcopy /y "$(TargetPath)" "D:\Jackz\Documents\GTAV Mods\scripts\$(TargetFileName)"
+echo F|xcopy /y "$(TargetDir)$(TargetName).pdb" "D:\Jackz\Documents\GTAV Mods\scripts\$(TargetName).pdb"</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -26,6 +26,15 @@ namespace Addify.lib
                 Vehicles.Add(_name, hashes[i]);
             }
         }
+        /*public SortedVehicleGroup(String name, Dictionary<string, UInt32> hashes)
+        {
+            this.Name = name;
+            foreach(KeyValuePair<string,UInt32> pair in hashes) 
+            {
+                VehicleHash veh = (VehicleHash)pair.Value;
+                Vehicles.Add(pair.Key, veh);
+            }
+        }*/
 
         #region pub_methods
         public enum VehicleGroup
@@ -66,76 +75,89 @@ namespace Addify.lib
             var list = new List<SortedVehicleGroup>();
             for (int i = 0; i < groups.Length; i++)
             {
-                var group = GetGroup(groups[i]);
-                if (group != null) list.Add(group);
+                try
+                {
+                    var group = GetGroup(groups[i]);
+                    if (group != null) list.Add(group);
+                }catch(Exception ex)
+                {
+                    Main.Logger.Error($"Exception for group {groups[i]}",ex.GetBaseException());
+                }
             }
+            //list.Add(GetGroup(VehicleGroup.Helicopters));
             return list.ToArray();
         }
         public static SortedVehicleGroup GetGroup(VehicleGroup group)
         {
-            switch (group)
+
+            try
             {
-                case VehicleGroup.Boats:
-                    return new SortedVehicleGroup("Boats", SortedVehicles.BOATS);
-                case VehicleGroup.Commerical:
-                    return new SortedVehicleGroup("Commerical", SortedVehicles.COMMERICAL);
-                case VehicleGroup.Coupes:
-                    return new SortedVehicleGroup("Coupes", SortedVehicles.COUPES);
-                case VehicleGroup.Cycles:
-                    return new SortedVehicleGroup("Cycles", SortedVehicles.CYCLES);
-                case VehicleGroup.Emergency:
-                    return new SortedVehicleGroup("Emergency", SortedVehicles.EMERGENCY);
-                case VehicleGroup.Helicopters:
-                    return new SortedVehicleGroup("Helicopters", SortedVehicles.HELICOPTERS);
-                case VehicleGroup.Industrial:
-                    return new SortedVehicleGroup("Industrial", SortedVehicles.INDUSTRIAL);
-                case VehicleGroup.Military:
-                    return new SortedVehicleGroup("Military", SortedVehicles.MILITARY);
-                case VehicleGroup.Motorcycles:
-                    return new SortedVehicleGroup("Motorcycles", SortedVehicles.MOTORCYCLES);
-                case VehicleGroup.Offroad:
-                    return new SortedVehicleGroup("Offroad", SortedVehicles.OFFROAD);
-                case VehicleGroup.Planes:
-                    return new SortedVehicleGroup("Planes", SortedVehicles.PLANES);
-                case VehicleGroup.Sedans:
-                    return new SortedVehicleGroup("Sedans", SortedVehicles.SEDANS);
-                case VehicleGroup.Service:
-                    return new SortedVehicleGroup("Service", SortedVehicles.SERVICE);
-                case VehicleGroup.Sports:
-                    return new SortedVehicleGroup("Sports", SortedVehicles.SPORTS);
-                case VehicleGroup.SportsClassic:
-                    return new SortedVehicleGroup("Sports Classic", SortedVehicles.SPORTS_CLASSIC);
-                case VehicleGroup.Super:
-                    return new SortedVehicleGroup("Super", SortedVehicles.SUPER);
-                case VehicleGroup.SUVs:
-                    return new SortedVehicleGroup("SUVs", SortedVehicles.SUV);
-                case VehicleGroup.Utility:
-                    return new SortedVehicleGroup("Utility", SortedVehicles.UTILITY);
-                case VehicleGroup.Vans:
-                    return new SortedVehicleGroup("Vans", SortedVehicles.VANS);
-                case VehicleGroup.DLC_ImportExport:
-                    return new SortedVehicleGroup("Import/Export", SortedVehicles.IMPORT_EXPORT);
-                case VehicleGroup.DLC_Gunrunning:
-                    return new SortedVehicleGroup("Gunrunning", SortedVehicles.GUNRUNNING);
-                case VehicleGroup.DLC_Smugglers:
-                    return new SortedVehicleGroup("Smuggler's Run", SortedVehicles.SMUGGLERS);
-                case VehicleGroup.DLC_Doomsday:
-                    return new SortedVehicleGroup("The Doomsday Heist", SortedVehicles.DOOMSDAY);
-                case VehicleGroup.DLC_AfterHours:
-                    return new SortedVehicleGroup("After Hours", SortedVehicles.AFTER_HOURS);
-                case VehicleGroup.DLC_ArenaWar:
-                    return new SortedVehicleGroup("Arena War", SortedVehicles.ARENA_WARS);
-                case VehicleGroup.DLC_Vinewood:
-                    return new SortedVehicleGroup("Diamond Casino & Resort ", SortedVehicles.VINEWOOD);
-                default:
-                    return null;
-            }
+               switch (group)
+                {
+
+                    case VehicleGroup.Boats:
+                        return new SortedVehicleGroup("Boats", SortedVehicles.BOATS);
+                    case VehicleGroup.Commerical:
+                        return new SortedVehicleGroup("Commerical", SortedVehicles.COMMERICAL);
+                    case VehicleGroup.Coupes:
+                        return new SortedVehicleGroup("Coupes", SortedVehicles.COUPES);
+                    case VehicleGroup.Cycles:
+                        return new SortedVehicleGroup("Cycles", SortedVehicles.CYCLES);
+                    case VehicleGroup.Emergency:
+                        return new SortedVehicleGroup("Emergency", SortedVehicles.EMERGENCY);
+                    case VehicleGroup.Helicopters:
+                        return new SortedVehicleGroup("Helicopters", SortedVehicles.HELICOPTERS);
+                    case VehicleGroup.Industrial:
+                        return new SortedVehicleGroup("Industrial", SortedVehicles.INDUSTRIAL);
+                    case VehicleGroup.Military:
+                        return new SortedVehicleGroup("Military", SortedVehicles.MILITARY);
+                    case VehicleGroup.Motorcycles:
+                        return new SortedVehicleGroup("Motorcycles", SortedVehicles.MOTORCYCLES);
+                    case VehicleGroup.Offroad:
+                        return new SortedVehicleGroup("Offroad", SortedVehicles.OFFROAD);
+                    case VehicleGroup.Planes:
+                        return new SortedVehicleGroup("Planes", SortedVehicles.PLANES);
+                    case VehicleGroup.Sedans:
+                        return new SortedVehicleGroup("Sedans", SortedVehicles.SEDANS);
+                    case VehicleGroup.Service:
+                        return new SortedVehicleGroup("Service", SortedVehicles.SERVICE);
+                    case VehicleGroup.Sports:
+                        return new SortedVehicleGroup("Sports", SortedVehicles.SPORTS);
+                    case VehicleGroup.SportsClassic:
+                        return new SortedVehicleGroup("Sports Classic", SortedVehicles.SPORTS_CLASSIC);
+                    case VehicleGroup.Super:
+                        return new SortedVehicleGroup("Super", SortedVehicles.SUPER);
+                    case VehicleGroup.SUVs:
+                        return new SortedVehicleGroup("SUVs", SortedVehicles.SUV);
+                    case VehicleGroup.Utility:
+                        return new SortedVehicleGroup("Utility", SortedVehicles.UTILITY);
+                    case VehicleGroup.Vans:
+                        return new SortedVehicleGroup("Vans", SortedVehicles.VANS);
+                    case VehicleGroup.DLC_ImportExport:
+                        return new SortedVehicleGroup("Import/Export", SortedVehicles.IMPORT_EXPORT);
+                    case VehicleGroup.DLC_Gunrunning:
+                        return new SortedVehicleGroup("Gunrunning", SortedVehicles.GUNRUNNING);
+                    case VehicleGroup.DLC_Smugglers:
+                        return new SortedVehicleGroup("Smuggler's Run", SortedVehicles.SMUGGLERS);
+                    case VehicleGroup.DLC_Doomsday:
+                        return new SortedVehicleGroup("The Doomsday Heist", SortedVehicles.DOOMSDAY);
+                    case VehicleGroup.DLC_AfterHours:
+                        return new SortedVehicleGroup("After Hours", SortedVehicles.AFTER_HOURS);
+                    case VehicleGroup.DLC_ArenaWar:
+                        return new SortedVehicleGroup("Arena War", SortedVehicles.ARENA_WARS);
+                    case VehicleGroup.DLC_Vinewood:
+                        return new SortedVehicleGroup("Diamond Casino & Resort ", SortedVehicles.VINEWOOD);
+                    default:
+                        return null;
+                }
+            }catch(Exception ex)
+            {
+                var excp = ex.GetBaseException() ?? ex;
+                Main.Logger.Error($"getGroup({group}):", excp);
+                return null;
+            } 
         }
         #endregion
-/*
- * case VehicleGroup.Boats:
-            return new SortedVehicleGroup("", SortedVehicles.);
-            */
 
-}
+    }
 }

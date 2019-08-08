@@ -21,7 +21,7 @@ namespace Addify {
         private WeaponMenu weaponMenu;
         private TeleportMenu teleportMenu;
         private WorldMenu worldMenu;
-        private Logger logger = new Logger();
+        public static Logger Logger { get; private set; } 
         #if DEBUG
         private DebugMenu debugMenu;
         #endif
@@ -29,6 +29,7 @@ namespace Addify {
         private Keys _open_menu_key;
         public static MenuPool Pool { get; private set; }
         public Main() {
+            Logger = new Logger();
             config = ScriptSettings.Load("scripts\\addify.ini");
             _open_menu_key = config.GetValue("Keybinds", "openMenu", Keys.Subtract);
 
@@ -50,7 +51,7 @@ namespace Addify {
             #endif
             setupKeys();
 
-            logger.Info($"Addify V{version} loaded");
+            Logger.Info($"Addify V{version} loaded");
 
             Pool.RefreshIndex();
             Tick += onTick;
@@ -100,7 +101,7 @@ namespace Addify {
             }
             catch (Exception ex)
             {
-                logger.Error(ex);
+                Logger.Error(ex);
             }
         }
         void onKeyDown(object sender, KeyEventArgs e) {
@@ -116,7 +117,7 @@ namespace Addify {
             }catch(Exception exception)
             {
                 UI.Notify("~r~ Exception on keyDown:" + exception.Message);
-                logger.Error(exception);
+                Logger.Error(exception);
             }
             Ped playerPed = Game.Player.Character;
             //if (Game.IsPaused) return;

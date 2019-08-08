@@ -58,6 +58,7 @@ namespace Addify
                             playerPed.SetIntoVehicle(veh, VehicleSeat.Driver);
                         }
                     };
+                    submenu.AddItem(_menu);
                 }
             }
 
