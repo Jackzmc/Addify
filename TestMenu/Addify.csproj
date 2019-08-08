@@ -40,6 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DebugMenu.cs" />
+    <Compile Include="lib\Logger.cs" />
+    <Compile Include="lib\SortedVehicleGroup.cs" />
     <Compile Include="lib\SortedVehicles.cs" />
     <Compile Include="lib\TrainEnums.cs" />
     <Compile Include="Main.cs" />

@@ -9,6 +9,7 @@ using GTA.Native;
 using GTA.Math;
 using System.Drawing;
 using System.Windows.Forms;
+using Addify.lib;
 
 namespace Addify {
     public class Main : Script {
@@ -20,9 +21,10 @@ namespace Addify {
         private WeaponMenu weaponMenu;
         private TeleportMenu teleportMenu;
         private WorldMenu worldMenu;
-#if DEBUG
+        private Logger logger = new Logger();
+        #if DEBUG
         private DebugMenu debugMenu;
-#endif
+        #endif
 
         private Keys _open_menu_key;
         public static MenuPool Pool { get; private set; }
@@ -43,16 +45,16 @@ namespace Addify {
             worldMenu = new WorldMenu(Pool.AddSubMenu(mainMenu, "World"));
             weaponMenu = new WeaponMenu(Pool.AddSubMenu(mainMenu, "Weapons"));
             teleportMenu = new TeleportMenu(Pool.AddSubMenu(mainMenu, "Teleport"));
-#if DEBUG
+            #if DEBUG
             debugMenu = new DebugMenu(Pool.AddSubMenu(mainMenu, "Debug"));
-#endif
+            #endif
             setupKeys();
 
+            logger.Info($"Addify V{version} loaded");
 
             Pool.RefreshIndex();
             Tick += onTick;
             KeyDown += onKeyDown;
-            
         }
         void setupKeys()
         {
@@ -87,27 +89,34 @@ namespace Addify {
                 }
             }
             //menuPool.ProcessKey(Keys.Nu)
-
-            playerMenu.update();
-            worldMenu.update();
-            vehicleMenu.update();
-#if DEBUG
-            debugMenu.update();
-#endif
+            try
+            {
+                playerMenu.update();
+                worldMenu.update();
+                vehicleMenu.update();
+                #if DEBUG
+                debugMenu.update();
+                #endif
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
         }
         void onKeyDown(object sender, KeyEventArgs e) {
             try
             {
                 vehicleMenu.onKeyDown(sender, e);
-#if DEBUG
+                #if DEBUG
                 debugMenu.onKeyDown(sender, e);
 
-#endif
+                #endif
                 teleportMenu.onKeyDown(sender, e);
                 playerMenu.onKeyDown(sender, e);
             }catch(Exception exception)
             {
                 UI.Notify("~r~ Exception on keyDown:" + exception.Message);
+                logger.Error(exception);
             }
             Ped playerPed = Game.Player.Character;
             //if (Game.IsPaused) return;
