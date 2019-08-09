@@ -16,6 +16,8 @@ namespace Addify {
         UIMenuItem giveAll = new UIMenuItem("Give all weapons");
         UIMenuItem removeAll = new UIMenuItem("Remove all weapons");
         UIMenuCheckboxItem menu_unlimited_ammo = new UIMenuCheckboxItem("Unlimited Ammo", false);
+        UIMenuCheckboxItem menu_fire_ammo = new UIMenuCheckboxItem("Fire Ammo", false);
+        UIMenuCheckboxItem menu_explosive_ammo = new UIMenuCheckboxItem("Explosive Ammo", false);
         UIMenuCheckboxItem menu_no_reload = new UIMenuCheckboxItem("No Reload", false);
         //todo: add inf. ammo, and no reload
 
@@ -25,9 +27,15 @@ namespace Addify {
 
         protected internal WeaponMenu() : base("Weapons") {
             var weaponGroups = SortedWeapons.GetWeaponGroups();
-            
-            menu.AddItem(giveAll);
-            menu.AddItem(removeAll);
+
+            AddMenus(
+                menu_unlimited_ammo,
+                menu_fire_ammo,
+                menu_explosive_ammo,
+                menu_no_reload,
+                giveAll,
+                removeAll
+            );
             var group_menu = Main.Pool.AddSubMenu(menu, "Groups >");
 
             foreach (SortedWeaponGroup group in weaponGroups)
@@ -70,7 +78,16 @@ namespace Addify {
             }
 
         }
-
+        internal override void update()
+        {
+            if(menu_fire_ammo.Checked)
+            {
+                Function.Call(Hash.SET_FIRE_AMMO_THIS_FRAME, player);
+            }else if(menu_explosive_ammo.Checked)
+            {
+                Function.Call(Hash.SET_EXPLOSIVE_AMMO_THIS_FRAME, player);
+            }
+        }
         internal override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
         {
  
@@ -91,6 +108,7 @@ namespace Addify {
             }else if(item == menu_no_reload)
             {
                 playerPed.Weapons.Current.InfiniteAmmoClip = menu_no_reload.Checked;
+                
             }
         }
 

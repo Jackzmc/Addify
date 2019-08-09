@@ -20,7 +20,7 @@ namespace Addify {
 
         private PlayerMenu playerMenu;
         private VehicleMenu vehicleMenu;
-        //private WeaponMenu weaponMenu;
+        private WeaponMenu weaponMenu;
         private TeleportMenu teleportMenu;
         private WorldMenu worldMenu;
         #if DEBUG
@@ -50,7 +50,7 @@ namespace Addify {
             playerMenu = new PlayerMenu();
             vehicleMenu = new VehicleMenu();
             worldMenu = new WorldMenu();
-            new WeaponMenu(); //no events
+            weaponMenu = new WeaponMenu();
             teleportMenu = new TeleportMenu();
         #if DEBUG
             debugMenu = new DebugMenu();
@@ -110,9 +110,10 @@ namespace Addify {
             //menuPool.ProcessKey(Keys.Nu)
             try
             {
-                //playerMenu.update();
+                playerMenu.update();
                 worldMenu.update();
                 vehicleMenu.update();
+                weaponMenu.update();
                 #if DEBUG
                 debugMenu.update();
                 #endif
@@ -128,7 +129,6 @@ namespace Addify {
                 vehicleMenu.onKeyDown(sender, e);
                 #if DEBUG
                 debugMenu.onKeyDown(sender, e);
-
                 #endif
                 teleportMenu.onKeyDown(sender, e);
                 playerMenu.onKeyDown(sender, e);

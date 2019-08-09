@@ -30,7 +30,7 @@ namespace Addify {
 
         private static Keys key_noclip;
 
-        protected internal PlayerMenu() : base("PlayerOptions") {
+        protected internal PlayerMenu() : base("Player Options") {
             key_noclip = Main.Config.GetValue("Keybinds", "Noclip", Keys.F6);
 
             List<dynamic> wantedLevels = new List<dynamic>(Enumerable.Range(1, 5).Cast<dynamic>().ToList());
