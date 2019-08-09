@@ -1,4 +1,5 @@
-﻿using GTA;
+﻿using Addify.lib;
+using GTA;
 using NativeUI;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Addify
 {
-    abstract class MenuItem : Script
+    internal abstract class MenuItem
     {
         protected UIMenu menu;
         protected Player player = Game.Player;
@@ -34,27 +35,27 @@ namespace Addify
             menu.OnItemSelect += onItemSelect;
             menu.OnCheckboxChange += onCheckboxChange;
         }
-        public void AddMenus(UIMenu menu, params UIMenuItem[] menus)
+        public void AddMenus(params UIMenuItem[] menus)
         {
             for(int i=0;i<menus.Length;i++)
             {
                 menu.AddItem(menus[i]);
             }
         }
-        public virtual void update()
+        internal virtual void update()
         {
             if (this.playerPed != Game.Player.Character) this.playerPed = Game.Player.Character;
             if(this.playerVehicle != playerPed.CurrentVehicle) this.playerVehicle = playerPed.CurrentVehicle;
         }
-        public virtual void onKeyDown(object sender, KeyEventArgs e)
+        internal virtual void onKeyDown(object sender, KeyEventArgs e)
         {
 
         }
-        public virtual void onItemSelect(UIMenu sender, UIMenuItem item, int index)
+        internal virtual void onItemSelect(UIMenu sender, UIMenuItem item, int index)
         {
 
         }
-        public virtual void onCheckboxChange(UIMenu sender, UIMenuCheckboxItem checkbox, bool Checked)
+        internal virtual void onCheckboxChange(UIMenu sender, UIMenuCheckboxItem checkbox, bool Checked)
         {
 
         }

@@ -23,7 +23,7 @@ namespace Addify {
         static readonly List<dynamic> allWeaponsList = Enum.GetValues(typeof(WeaponHash)).Cast<dynamic>().ToList();
 
 
-        public WeaponMenu() : base("Weapons") {
+        protected internal WeaponMenu() : base("Weapons") {
             var weaponGroups = SortedWeapons.GetWeaponGroups();
             
             menu.AddItem(giveAll);
@@ -71,7 +71,7 @@ namespace Addify {
 
         }
 
-        public override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
+        internal override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
         {
  
             if (item == giveAll)

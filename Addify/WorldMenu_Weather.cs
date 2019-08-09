@@ -22,7 +22,7 @@ namespace Addify
         List<dynamic> weatherList = Enum.GetValues(typeof(Weather)).Cast<dynamic>().ToList();
         List<dynamic> hourList = Enumerable.Range(0, 24).Cast<dynamic>().ToList();
         List<dynamic> minuteList = Enumerable.Range(0, 60).Cast<dynamic>().ToList();
-        public WorldMenu_Weather(UIMenu menu) : base(menu)
+        protected internal WorldMenu_Weather(UIMenu menu) : base(menu)
         {
             menu_time_hr = new UIMenuListItem("Hour", hourList, 0);
             menu_time_min = new UIMenuListItem("Minutes", minuteList, 0);
@@ -34,7 +34,7 @@ namespace Addify
             menu.AddItem(menu_timeDec);
             menu.AddItem(menu_weather);
         }
-        public override void update()
+        internal override void update()
         {
             if (menu_freezeTime.Checked)
             {
@@ -44,7 +44,7 @@ namespace Addify
             }
         }
 
-        public override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
+        internal override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
         {
             if (item == menu_weather)
             {

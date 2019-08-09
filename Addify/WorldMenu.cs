@@ -34,7 +34,7 @@ namespace Addify {
         //static bool no_police_helis = false;
 
 
-        public WorldMenu () : base("World") {
+        protected internal WorldMenu() : base("World") {
             //set list items
             
             //menu_weather = new UIMenuListItem("Weather", weatherList, 0);
@@ -51,7 +51,7 @@ namespace Addify {
             menu.AddItem(menu_angry_cops);
             menu.AddItem(menu_angry_cop_cars);
         }
-        public override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
+        internal override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
         {
             /*switch(item)
                 {
@@ -80,14 +80,14 @@ namespace Addify {
 
             }
         }
-        public override void onCheckboxChange(UIMenu sender, UIMenuCheckboxItem checkbox, bool Checked)
+        internal override void onCheckboxChange(UIMenu sender, UIMenuCheckboxItem checkbox, bool Checked)
         {
             if(checkbox == menu_blackout)
             {
                 GTA.World.SetBlackout(menu_blackout.Checked);
             }
         }
-        public override void update() {
+        internal override void update() {
             base.update();
             weatherMenu.update();
             trainMenu.update();

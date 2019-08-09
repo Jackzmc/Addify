@@ -100,7 +100,7 @@ namespace Addify {
         };
 
         private static Keys WaypointTeleport;
-        public TeleportMenu() : base("Teleport") {
+        protected internal TeleportMenu() : base("Teleport") {
             WaypointTeleport = Main.Config.GetValue("Keybinds", "TPWaypoint", Keys.F5);
             waypoint = new UIMenuItem($"Teleport to waypoint [{WaypointTeleport}]");
             Ped playerPed = Game.Player.Character;
@@ -125,14 +125,14 @@ namespace Addify {
             }
             //menu.MenuItems.AddRange(waypointItems);
         }
-        public override void onKeyDown(object sender, KeyEventArgs e)
+        internal override void onKeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode == WaypointTeleport)
             {
                 TeleportPlayerToWaypoint();
             }
         }
-        public override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
+        internal override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
         {
             if (item == waypoint)
             {

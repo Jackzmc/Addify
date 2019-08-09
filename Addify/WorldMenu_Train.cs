@@ -37,7 +37,7 @@ namespace Addify
         //generate 0-500
         static readonly List<dynamic> TRAIN_SPEEDS_FORWARD = Enumerable.Range(0, 101).Select(n => 5 * n).Cast<dynamic>().ToList();
         static readonly List<dynamic> TRAIN_SPEEDS_BACKWARD = Enumerable.Range(0, 101).Select(n => -5 * n).Cast<dynamic>().ToList();
-        public WorldMenu_Train(UIMenu menu) : base(menu)
+        protected internal WorldMenu_Train(UIMenu menu) : base(menu)
         {
             menu_train_model = new UIMenuListItem("Spawn Freight Train", TRAIN_VARIATIONS.Cast<dynamic>().ToList(), 0);
             menu_crazy_train_forward_speed = new UIMenuListItem("Train Forward Speed [Active]", TRAIN_SPEEDS_FORWARD, 0);
@@ -49,7 +49,7 @@ namespace Addify
             menu.AddItem(menu_metro_model);
             menu.AddItem(menu_train_model);
         }
-        public override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
+        internal override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
         {
             if (item == menu_train_model)
             {
@@ -98,7 +98,7 @@ namespace Addify
                 use_forward_list = false;
             }
         }
-        public override void update()
+        internal override void update()
         {
             base.update();
             if(menu_crazy_train.Checked)

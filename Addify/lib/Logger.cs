@@ -9,7 +9,7 @@ namespace Addify.lib
     public class Logger
     {
         private const string FILE_NAME = "Addify.log";
-        private const string DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.fff";
+        private const string DATE_FORMAT = "[HH:mm:ss]";
         public string Name { get; set; }
         public Logger(String name)
         {
@@ -36,7 +36,7 @@ namespace Addify.lib
         /// <summary>
         /// Log an ERROR message
         /// </summary>
-        /// <param name="text">Message</param>
+        /// <param name="text">Prefix Message</param>
         public void Error(string text)
         {
             WriteFormattedLog(LogLevel.ERROR, text);
@@ -116,7 +116,7 @@ namespace Addify.lib
         #region private
         private void Init()
         {
-            WriteLine("", false);
+            WriteLine("# Logger Started", false);
         }
         private void WriteLine(string msg, bool append = true)
         {

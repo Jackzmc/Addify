@@ -14,13 +14,13 @@ using Addify.lib;
 namespace Addify {
     public class Main : Script {
         public static ScriptSettings Config { get; private set; }
-        public static MenuPool Pool { get; private set; }
+        public static MenuPool Pool { get; } = new MenuPool();
         public static UIMenu Menu { get; private set; }
         public static Logger Logger { get; private set; }
 
         private PlayerMenu playerMenu;
         private VehicleMenu vehicleMenu;
-        private WeaponMenu weaponMenu;
+        //private WeaponMenu weaponMenu;
         private TeleportMenu teleportMenu;
         private WorldMenu worldMenu;
         #if DEBUG
@@ -31,27 +31,32 @@ namespace Addify {
        
 
         public Main() {
+            Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            Menu = new UIMenu("Addify", $"Version {version} by Jackz")
+            {
+                Visible = true
+            };
             Logger = new Logger();
             Config = ScriptSettings.Load("scripts\\addify.ini");
             setupKeybinds();
 
-            Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            Pool = new MenuPool();
-            Menu = new UIMenu("Addify", $"Version {version} by Jackz") {
-                Visible = true
-            };
-
+            
+            if(Pool == null || Menu == null)
+            {
+                Logger.Error("Menu Pool was not intalized, menu will not load.");
+                return;
+            }
             Pool.Add(Menu);
             playerMenu = new PlayerMenu();
             vehicleMenu = new VehicleMenu();
             worldMenu = new WorldMenu();
-            weaponMenu = new WeaponMenu();
+            new WeaponMenu(); //no events
             teleportMenu = new TeleportMenu();
-            #if DEBUG
+        #if DEBUG
             debugMenu = new DebugMenu();
-            #endif
-            Pool.RefreshIndex();
+        #endif
 
+            Pool.RefreshIndex();
             setupKeys();
 
             UI.Notify($"Addify v{version} loaded");
@@ -59,6 +64,7 @@ namespace Addify {
 
             Tick += onTick;
             KeyDown += onKeyDown;
+            
         }
         
         #region priv_methods
@@ -104,7 +110,7 @@ namespace Addify {
             //menuPool.ProcessKey(Keys.Nu)
             try
             {
-                playerMenu.update();
+                //playerMenu.update();
                 worldMenu.update();
                 vehicleMenu.update();
                 #if DEBUG
@@ -113,7 +119,7 @@ namespace Addify {
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Error("update() error",ex);
             }
         }
         void onKeyDown(object sender, KeyEventArgs e) {
@@ -129,7 +135,7 @@ namespace Addify {
             }catch(Exception exception)
             {
                 UI.Notify("~r~ Exception on keyDown:" + exception.Message);
-                Logger.Error(exception);
+                Logger.Error("onKeyDown() exception", exception);
             }
             Ped playerPed = Game.Player.Character;
             //if (Game.IsPaused) return;

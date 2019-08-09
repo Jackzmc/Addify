@@ -24,17 +24,17 @@ namespace Addify
         {
             "Green", "Red", "Yellow"
         };
-        public WorldMenu_Traffic(UIMenu menu) : base(menu)
+        protected internal WorldMenu_Traffic(UIMenu menu) : base(menu)
         {
             menu_traffic_light_opts = new UIMenuListItem("Traffic Light Color", TRAFFIC_LIGHT_OPTIONS, 0);
-            AddMenus(menu,
+            AddMenus(
                 menu_traffic_light_changer,
                 menu_traffic_light_opts,
                 menu_traffic_ai_changer
             );
         }
         int game_tick = 0;
-        public override void update()
+        internal override void update()
         {
             game_tick++;
             if (menu_traffic_light_changer.Checked && game_tick > 16)

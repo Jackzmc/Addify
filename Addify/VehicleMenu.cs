@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Addify
 {
-    class VehicleMenu : MenuItem {
+    internal class VehicleMenu : MenuItem {
         static UIMenuItem menu_repair = new UIMenuItem("Repair", "Repair current car");
         static UIMenuCheckboxItem menu_godmode = new UIMenuCheckboxItem("Vehicle God", false);
         static UIMenuCheckboxItem menu_boost = new UIMenuCheckboxItem("Boost", true);
@@ -31,14 +31,14 @@ namespace Addify
         private readonly System.Drawing.Point SPEED_POINT;
 
 
-        public VehicleMenu() : base("Vehicle Options")
+        protected internal VehicleMenu() : base("Vehicle Options")
         {
             SPEED_POINT = new System.Drawing.Point(SPEED_X, SPEED_Y);
             menu_speed_type = new UIMenuListItem("Display", speedTypes, 0);
-            doorControl = new VehicleMenu_DoorControl();
 
 
             var spawn_menu = Main.Pool.AddSubMenu(menu, "Vehicles >>");
+            doorControl = new VehicleMenu_DoorControl(Main.Pool.AddSubMenu(menu, "Door Control >>"));
             spawn_menu.AddItem(menu_spawner_spawninveh);
             spawn_menu.AddItem(menu_spawner_showblip);
             foreach(SortedVehicleGroup group in SortedVehicleGroup.GetVehicleGroups())
@@ -75,7 +75,7 @@ namespace Addify
             menu.AddItem(menu_speed_type);
             menu.AddItem(menu_boost);
         }
-        public override void update()
+        internal override void update()
         {
             base.update();
             Ped playerPed = Game.Player.Character;
@@ -111,7 +111,7 @@ namespace Addify
             }
         }
 
-        public override void onCheckboxChange(UIMenu sender, UIMenuCheckboxItem checkbox, bool Checked)
+        internal override void onCheckboxChange(UIMenu sender, UIMenuCheckboxItem checkbox, bool Checked)
         {
             if (checkbox == menu_godmode)
             {
@@ -135,7 +135,7 @@ namespace Addify
             }
             UI.ShowSubtitle("Key: " + Main.Config.GetValue("Config", "Menu", Keys.F9).ToString());
         }
-        public override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
+        internal override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
         {
             if (item == menu_repair)
             {
@@ -160,7 +160,7 @@ namespace Addify
                 playerPed.SetIntoVehicle(veh,VehicleSeat.Driver);
             }*/
         }
-        public override void onKeyDown(object sender, KeyEventArgs e)
+        internal override void onKeyDown(object sender, KeyEventArgs e)
         {
             //vehicle blinkers
             Ped playerPed = Game.Player.Character;

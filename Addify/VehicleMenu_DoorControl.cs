@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NativeUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Addify
 {
     class VehicleMenu_DoorControl : MenuItem
     {
-        public VehicleMenu_DoorControl() : base("Door Control")
+        protected internal VehicleMenu_DoorControl(UIMenu menu) : base(menu)
         {
 
         }

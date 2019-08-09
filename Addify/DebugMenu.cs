@@ -33,7 +33,7 @@ namespace Addify
 
         public DebugMenu() : base("Debug Menu")
         {
-            AddMenus(menu,
+            AddMenus(
                 menu_npc_model,
                 menu_veh_model,
                 menu_get_targeted_ent,
@@ -45,11 +45,7 @@ namespace Addify
                 menu_generic_toggle
             );
         }
-        public void onTest(object sender, KeyEventArgs e)
-        {
-
-        }
-        public override void onKeyDown(object sender, KeyEventArgs e)
+        internal override void onKeyDown(object sender, KeyEventArgs e)
         {
             if(menu_get_loc.Checked)
             {
@@ -61,7 +57,7 @@ namespace Addify
             }
             
         }
-        public override void onCheckboxChange(UIMenu sender, UIMenuCheckboxItem checkbox, bool Checked)
+        internal override void onCheckboxChange(UIMenu sender, UIMenuCheckboxItem checkbox, bool Checked)
         {
             if(checkbox == menu_npc_model)
             {
@@ -71,7 +67,7 @@ namespace Addify
                 menu_npc_model.Checked = false;
             }
         }
-        public override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
+        internal override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
         {
             if(item == menu_mouse_loc_action)
             {
@@ -83,7 +79,7 @@ namespace Addify
         }
         int frame_counter = 0;
         int last_fps = 0;
-        public override void update()
+        internal override void update()
         {
             base.update();
             frame_counter++;

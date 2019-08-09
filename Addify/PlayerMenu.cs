@@ -8,6 +8,7 @@ using GTA;
 using GTA.Native;
 using GTA.Math;
 using System.Windows.Forms;
+using Addify.lib;
 
 namespace Addify {
 
@@ -29,14 +30,15 @@ namespace Addify {
 
         private static Keys key_noclip;
 
-        public PlayerMenu() : base("Player Options") {
+        protected internal PlayerMenu() : base("PlayerOptions") {
             key_noclip = Main.Config.GetValue("Keybinds", "Noclip", Keys.F6);
 
             List<dynamic> wantedLevels = new List<dynamic>(Enumerable.Range(1, 5).Cast<dynamic>().ToList());
             menu_wanted_list = new UIMenuListItem("Wanted Level", wantedLevels, 0, "Number of stars");
             menu.AddItem(menu_toggleGod);
             menu.AddItem(menu_noclip);
-            var model_menu = Main.Pool.AddSubMenu(menu, "Change Model >","Change Model");
+            
+            var model_menu = Main.Pool.AddSubMenu(menu, "Change Model >");
             foreach(PedHash hash in MODEL_HASHES)
             {
                 var name = Enum.GetName(typeof(PedHash),hash).ToString();
@@ -68,7 +70,7 @@ namespace Addify {
 
         #region events
 
-        public override void onKeyDown(object sender, KeyEventArgs e)
+        internal override void onKeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode == key_noclip)
             {
@@ -115,7 +117,7 @@ namespace Addify {
                 playerPed.PositionNoOffset = pos;
             }
         }
-        public override void update() {
+        internal override void update() {
             playerPed.IsInvincible = menu_toggleGod.Checked;
             if (menu_noclip.Checked)
             {
@@ -139,7 +141,7 @@ namespace Addify {
                 //GTA.Native.Function.Call(Hash.SET_PLAYER_WANTED_LEVEL, Game.Player, menu_wanted_list.Index);
             }
         }
-        public override void onItemSelect(UIMenu sender, UIMenuItem item, int index) {
+        internal override void onItemSelect(UIMenu sender, UIMenuItem item, int index) {
             if (item == menu_resetWantedLevel) {
                 if (Game.Player.WantedLevel == 0) {
                     UI.ShowSubtitle("You are not wanted");
@@ -154,7 +156,7 @@ namespace Addify {
             }
             
         }
-        public override void onCheckboxChange(UIMenu sender, UIMenuCheckboxItem checkbox, bool Checked) {
+        internal override void onCheckboxChange(UIMenu sender, UIMenuCheckboxItem checkbox, bool Checked) {
             if(checkbox == menu_neverWanted)
             {
                 if(menu_neverWanted.Checked)
