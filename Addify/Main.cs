@@ -13,51 +13,56 @@ using Addify.lib;
 
 namespace Addify {
     public class Main : Script {
-        private UIMenu mainMenu;
-        public static ScriptSettings config;
+        public static ScriptSettings Config { get; private set; }
+        public static MenuPool Pool { get; private set; }
+        public static UIMenu Menu { get; private set; }
+        public static Logger Logger { get; private set; }
 
         private PlayerMenu playerMenu;
         private VehicleMenu vehicleMenu;
         private WeaponMenu weaponMenu;
         private TeleportMenu teleportMenu;
         private WorldMenu worldMenu;
-        public static Logger Logger { get; private set; } 
         #if DEBUG
         private DebugMenu debugMenu;
         #endif
 
         private Keys _open_menu_key;
-        public static MenuPool Pool { get; private set; }
+       
+
         public Main() {
             Logger = new Logger();
-            config = ScriptSettings.Load("scripts\\addify.ini");
-            _open_menu_key = config.GetValue("Keybinds", "openMenu", Keys.Subtract);
+            Config = ScriptSettings.Load("scripts\\addify.ini");
+            setupKeybinds();
 
             Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            UI.Notify($"Addify v{version} loaded");
             Pool = new MenuPool();
-            mainMenu = new UIMenu("Addify", $"Version {version} by Jackz") {
+            Menu = new UIMenu("Addify", $"Version {version} by Jackz") {
                 Visible = true
             };
 
-            Pool.Add(mainMenu);
-            playerMenu = new PlayerMenu(Pool.AddSubMenu(mainMenu, "Player"));
-            vehicleMenu = new VehicleMenu(Pool.AddSubMenu(mainMenu, "Vehicle Options"));
-            worldMenu = new WorldMenu(Pool.AddSubMenu(mainMenu, "World"));
-            weaponMenu = new WeaponMenu(Pool.AddSubMenu(mainMenu, "Weapons"));
-            teleportMenu = new TeleportMenu(Pool.AddSubMenu(mainMenu, "Teleport"));
+            Pool.Add(Menu);
+            playerMenu = new PlayerMenu();
+            vehicleMenu = new VehicleMenu();
+            worldMenu = new WorldMenu();
+            weaponMenu = new WeaponMenu();
+            teleportMenu = new TeleportMenu();
             #if DEBUG
-            debugMenu = new DebugMenu(Pool.AddSubMenu(mainMenu, "Debug"));
+            debugMenu = new DebugMenu();
             #endif
+            Pool.RefreshIndex();
+
             setupKeys();
 
+            UI.Notify($"Addify v{version} loaded");
             Logger.Info($"Addify V{version} loaded");
 
-            Pool.RefreshIndex();
             Tick += onTick;
             KeyDown += onKeyDown;
         }
-        void setupKeys()
+        
+        #region priv_methods
+        private void setupKeys()
         {
             Pool.SetKey(UIMenu.MenuControls.Up, Keys.NumPad8);
             Pool.SetKey(UIMenu.MenuControls.Down, Keys.NumPad2);
@@ -65,12 +70,19 @@ namespace Addify {
             Pool.SetKey(UIMenu.MenuControls.Right, Keys.NumPad6);
             Pool.SetKey(UIMenu.MenuControls.Back, Keys.NumPad0);
             Pool.SetKey(UIMenu.MenuControls.Select, Keys.NumPad5);
-           // mainMenu.SetKey(UIMenu.MenuControls.Up, Keys.NumPad8);
+           // Menu.SetKey(UIMenu.MenuControls.Up, Keys.NumPad8);
            // menuPool.SetKey(UIMenu.MenuControls.Up, GTA.Control.PhoneUp);
 
 
         }
+        private void setupKeybinds()
+        {
+            _open_menu_key = Config.GetValue("Keybinds", "openMenu", Keys.Subtract);
+        }
+        #endregion
         int tick_counter = 0;
+
+        #region events
         void onTick(object sender, EventArgs e) {
             tick_counter++;
 
@@ -123,10 +135,10 @@ namespace Addify {
             //if (Game.IsPaused) return;
             if (e.KeyCode == _open_menu_key && !Pool.IsAnyMenuOpen())
             {
-                mainMenu.Visible = !mainMenu.Visible; //toggle
+                Menu.Visible = !Menu.Visible; //toggle
             }
 
         }
-
+        #endregion
     }
 }

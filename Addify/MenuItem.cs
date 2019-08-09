@@ -14,7 +14,20 @@ namespace Addify
         protected UIMenu menu;
         protected Player player = Game.Player;
         protected Ped playerPed = Game.Player.Character;
-        protected Vehicle playerVehicle;
+        protected Vehicle playerVehicle = Game.Player.Character.CurrentVehicle;
+
+        public MenuItem(String name)
+        {
+            this.menu = Main.Pool.AddSubMenu(Main.Menu, name);
+            menu.OnItemSelect += onItemSelect;
+            menu.OnCheckboxChange += onCheckboxChange;
+        }
+        public MenuItem()
+        {
+            this.menu = Main.Pool.AddSubMenu(Main.Menu, this.GetType().Name);
+            menu.OnItemSelect += onItemSelect;
+            menu.OnCheckboxChange += onCheckboxChange;
+        }
         public MenuItem(UIMenu menu)
         {
             this.menu = menu;

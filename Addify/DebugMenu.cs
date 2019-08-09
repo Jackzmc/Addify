@@ -31,7 +31,7 @@ namespace Addify
         private readonly int BASE_X = UI.WIDTH /2;
         private readonly int BASE_Y = 120;
 
-        public DebugMenu(UIMenu menu) : base(menu)
+        public DebugMenu() : base("Debug Menu")
         {
             AddMenus(menu,
                 menu_npc_model,
@@ -44,6 +44,10 @@ namespace Addify
                 menu_generic_click,
                 menu_generic_toggle
             );
+        }
+        public void onTest(object sender, KeyEventArgs e)
+        {
+
         }
         public override void onKeyDown(object sender, KeyEventArgs e)
         {

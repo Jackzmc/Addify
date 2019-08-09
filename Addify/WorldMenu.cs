@@ -34,7 +34,7 @@ namespace Addify {
         //static bool no_police_helis = false;
 
 
-        public WorldMenu (UIMenu menu) : base(menu) {
+        public WorldMenu () : base("World") {
             //set list items
             
             //menu_weather = new UIMenuListItem("Weather", weatherList, 0);

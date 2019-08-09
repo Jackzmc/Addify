@@ -29,8 +29,8 @@ namespace Addify {
 
         private static Keys key_noclip;
 
-        public PlayerMenu(UIMenu menu) : base(menu) {
-            key_noclip = Main.config.GetValue("Keybinds", "Noclip", Keys.F6);
+        public PlayerMenu() : base("Player Options") {
+            key_noclip = Main.Config.GetValue("Keybinds", "Noclip", Keys.F6);
 
             List<dynamic> wantedLevels = new List<dynamic>(Enumerable.Range(1, 5).Cast<dynamic>().ToList());
             menu_wanted_list = new UIMenuListItem("Wanted Level", wantedLevels, 0, "Number of stars");

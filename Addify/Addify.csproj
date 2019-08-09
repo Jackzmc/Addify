@@ -53,6 +53,7 @@
     <Compile Include="MenuItem.cs" />
     <Compile Include="lib\Util.cs" />
     <Compile Include="VehicleMenu.cs" />
+    <Compile Include="VehicleMenu_DoorControl.cs" />
     <Compile Include="WeaponMenu.cs" />
     <Compile Include="WorldMenu.cs" />
     <Compile Include="WorldMenu_Traffic.cs" />

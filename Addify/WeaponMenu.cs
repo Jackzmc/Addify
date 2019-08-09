@@ -23,7 +23,7 @@ namespace Addify {
         static readonly List<dynamic> allWeaponsList = Enum.GetValues(typeof(WeaponHash)).Cast<dynamic>().ToList();
 
 
-        public WeaponMenu(UIMenu menu) : base(menu) {
+        public WeaponMenu() : base("Weapons") {
             var weaponGroups = SortedWeapons.GetWeaponGroups();
             
             menu.AddItem(giveAll);

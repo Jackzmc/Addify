@@ -23,16 +23,21 @@ namespace Addify
         static readonly VehicleHash[] vehicles = (VehicleHash[])Enum.GetValues(typeof(VehicleHash));
         static readonly List<dynamic> speedTypes = new List<dynamic>() { "MPH", "KPH" };
 
+        private VehicleMenu_DoorControl doorControl;
+
 
         private readonly int SPEED_X = UI.WIDTH * 1/5;
         private readonly int SPEED_Y = UI.HEIGHT - 50;
         private readonly System.Drawing.Point SPEED_POINT;
 
 
-        public VehicleMenu(UIMenu menu) : base(menu)
+        public VehicleMenu() : base("Vehicle Options")
         {
             SPEED_POINT = new System.Drawing.Point(SPEED_X, SPEED_Y);
             menu_speed_type = new UIMenuListItem("Display", speedTypes, 0);
+            doorControl = new VehicleMenu_DoorControl();
+
+
             var spawn_menu = Main.Pool.AddSubMenu(menu, "Vehicles >>");
             spawn_menu.AddItem(menu_spawner_spawninveh);
             spawn_menu.AddItem(menu_spawner_showblip);
@@ -128,7 +133,7 @@ namespace Addify
                     for(int i=0;i<4;i++) playerVehicle.FixTire(i);
                 }
             }
-            UI.ShowSubtitle("Key: " + Main.config.GetValue("Config", "Menu", Keys.F9).ToString());
+            UI.ShowSubtitle("Key: " + Main.Config.GetValue("Config", "Menu", Keys.F9).ToString());
         }
         public override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
         {

@@ -100,8 +100,8 @@ namespace Addify {
         };
 
         private static Keys WaypointTeleport;
-        public TeleportMenu(UIMenu menu) : base(menu) {
-            WaypointTeleport = Main.config.GetValue("Keybinds", "TPWaypoint", Keys.F5);
+        public TeleportMenu() : base("Teleport") {
+            WaypointTeleport = Main.Config.GetValue("Keybinds", "TPWaypoint", Keys.F5);
             waypoint = new UIMenuItem($"Teleport to waypoint [{WaypointTeleport}]");
             Ped playerPed = Game.Player.Character;
 
