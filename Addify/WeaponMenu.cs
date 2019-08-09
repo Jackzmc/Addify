@@ -83,10 +83,14 @@ namespace Addify {
             if(menu_fire_ammo.Checked)
             {
                 Function.Call(Hash.SET_FIRE_AMMO_THIS_FRAME, player);
-            }else if(menu_explosive_ammo.Checked)
+            }
+            if (menu_explosive_ammo.Checked)
             {
                 Function.Call(Hash.SET_EXPLOSIVE_AMMO_THIS_FRAME, player);
             }
+            playerPed.Weapons.Current.InfiniteAmmo = menu_unlimited_ammo.Checked;
+            playerPed.Weapons.Current.InfiniteAmmoClip = menu_no_reload.Checked;
+            
         }
         internal override void onItemSelect(UIMenu sender, UIMenuItem item, int index)
         {
