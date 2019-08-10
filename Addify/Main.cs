@@ -96,9 +96,8 @@ namespace Addify {
             {
 
                 Pool.ProcessMenus();
-                if (tick_counter > 3)
+                if (tick_counter > 4)
                 {
-                    Pool.ProcessKey(Keys.NumPad0);
                     /*menuPool.ProcessKey(Keys.NumPad2);
                     menuPool.ProcessKey(Keys.NumPad4);
                     menuPool.ProcessKey(Keys.NumPad6);
@@ -106,6 +105,8 @@ namespace Addify {
                     menuPool.ProcessKey(Keys.NumPad0);*/
                     tick_counter = 0;
                 }
+               
+
             }
             //menuPool.ProcessKey(Keys.Nu)
             try
@@ -124,6 +125,12 @@ namespace Addify {
             }
         }
         void onKeyDown(object sender, KeyEventArgs e) {
+            Pool.ProcessKey(Keys.NumPad8);
+            Pool.ProcessKey(Keys.NumPad2);
+            Pool.ProcessKey(Keys.NumPad5);
+            Pool.ProcessKey(Keys.NumPad0);
+            Pool.ProcessKey(Keys.NumPad4);
+            Pool.ProcessKey(Keys.NumPad6);
             try
             {
                 vehicleMenu.onKeyDown(sender, e);
@@ -137,11 +144,21 @@ namespace Addify {
                 UI.Notify("~r~ Exception on keyDown:" + exception.Message);
                 Logger.Error("onKeyDown() exception", exception);
             }
-            Ped playerPed = Game.Player.Character;
             //if (Game.IsPaused) return;
-            if (e.KeyCode == _open_menu_key && !Pool.IsAnyMenuOpen())
+            if (e.KeyCode == _open_menu_key)
             {
-                Menu.Visible = !Menu.Visible; //toggle
+                //if there is ANY menu, and the main is visible:
+                if(Pool.IsAnyMenuOpen() && Menu.Visible)
+                {
+                    Menu.Visible = false;
+                }else if(Pool.IsAnyMenuOpen() && !Menu.Visible) //if there is a menu open AND not main, close it
+                {
+                    Pool.CloseAllMenus();
+                }
+                else //no menu open, reopen
+                {
+                    Menu.Visible = true;
+                }
             }
 
         }

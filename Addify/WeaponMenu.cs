@@ -99,7 +99,7 @@ namespace Addify {
             {
                 foreach (var weapon in allWeaponsList)
                 {
-                    Game.Player.Character.Weapons.Give(weapon, 9999, false, true);
+                    Game.Player.Character.Weapons.Give(weapon, 9999, false, false);
                 }
 
             }

@@ -160,30 +160,55 @@ namespace Addify
                 playerPed.SetIntoVehicle(veh,VehicleSeat.Driver);
             }*/
         }
+        bool VEH_ISHAZARD = false;
+        bool VEH_LBLINK = false;
+        bool VEH_RBLINK = false;
         internal override void onKeyDown(object sender, KeyEventArgs e)
         {
             //vehicle blinkers
-            Ped playerPed = Game.Player.Character;
             if (playerPed.IsInVehicle())
             {
-                if (e.KeyCode == Keys.Oemcomma && e.Shift)
+                if(!Main.Pool.IsAnyMenuOpen())
                 {
-                    playerPed.CurrentVehicle.LeftIndicatorLightOn = true;
-                    playerPed.CurrentVehicle.RightIndicatorLightOn = false;
+                    if (e.KeyCode == Keys.Left && !e.Shift)
+                    {
+                        VEH_LBLINK = !VEH_LBLINK;
+                        VEH_RBLINK = false;
+                        playerPed.CurrentVehicle.LeftIndicatorLightOn = VEH_LBLINK;
+                        playerPed.CurrentVehicle.RightIndicatorLightOn = false;
+                    }
+                    else if (e.KeyCode == Keys.Right && !e.Shift)
+                    {
+                        VEH_RBLINK = !VEH_RBLINK;
+                        VEH_LBLINK = false;
+                        playerPed.CurrentVehicle.LeftIndicatorLightOn = false;
+                        playerPed.CurrentVehicle.RightIndicatorLightOn = VEH_RBLINK;
+                    }
+                    if (VEH_ISHAZARD) VEH_ISHAZARD = false;
                 }
-                else if (e.KeyCode == Keys.OemPeriod && e.Shift)
-                {
-                    playerPed.CurrentVehicle.LeftIndicatorLightOn = false;
-                    playerPed.CurrentVehicle.RightIndicatorLightOn = true;
-                }
-                else if (e.KeyCode == Keys.OemSemicolon)
+                
+                if (e.KeyCode == Keys.OemSemicolon)
                 {
                     playerPed.CurrentVehicle.StartAlarm();
                 }
                 else if (e.KeyCode == Keys.OemPipe)
                 {
-                    playerPed.CurrentVehicle.LeftIndicatorLightOn = true;
-                    playerPed.CurrentVehicle.RightIndicatorLightOn = true;
+                    if(VEH_LBLINK) VEH_LBLINK = false;
+                    if (VEH_RBLINK) VEH_RBLINK = false;
+                    if(VEH_ISHAZARD)
+                    {
+                        playerPed.CurrentVehicle.LeftIndicatorLightOn = false;
+                        playerPed.CurrentVehicle.RightIndicatorLightOn = false;
+                        VEH_ISHAZARD = false;
+
+                    }
+                    else
+                    {
+                        playerPed.CurrentVehicle.LeftIndicatorLightOn = true;
+                        playerPed.CurrentVehicle.RightIndicatorLightOn = true;
+                        VEH_ISHAZARD = true;
+                    }
+
                 }
             }
             else if (e.KeyCode == Keys.NumPad9 && playerPed.IsInVehicle() && menu_boost.Checked)
